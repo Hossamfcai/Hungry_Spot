@@ -1,0 +1,8 @@
+/* 1. Define explicit layer priority order */
+@layer theme, base, mantine, components, utilities;
+
+/* 2. Import Tailwind CSS engine */
+@import "tailwindcss";
+
+/* 3. Import Mantine using its layer-enabled stylesheet */
+@import "@mantine/core/styles.layer.css";
