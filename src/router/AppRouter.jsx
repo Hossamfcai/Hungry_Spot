@@ -1,13 +1,13 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import LandingPage from "../Pages/Landing/LandingPage";
-import DashboardLayout from "../Pages/Dashboard/DashboardLayout";
+import DashboardLayout from "../Components/Layout/DashboardLayout";
 import Statistics from "../Pages/Dashboard/Statistics";
 import Menu from "../Pages/Dashboard/Menu";
 import Orders from "../Pages/Dashboard/Orders";
 import Users from "../Pages/Dashboard/Users";
 import NotFoundPage from "../Pages/NotFoundPage";
 import ResturantPage from "../Pages/Restaurant/RestaurantPage";
-import AuthenticationLayout from "../Pages/Authentication/AuthenticationLayout";
+import AuthenticationLayout from "../Components/Layout/AuthenticationLayout";
 import Login from "../Pages/Authentication/Login";
 import SignUp from "../Pages/Authentication/SignUp";
 import ProtectedRoute from "./ProtectedRoute";

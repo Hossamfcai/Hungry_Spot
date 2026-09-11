@@ -1,0 +1,37 @@
+export const initialOrders = {
+  orders: [],
+  loadingOrders: false,
+  ordersError: { isError: false, message: "" },
+};
+
+export function ordresReducer(ordersState, action) {
+  switch (action.type) {
+    case "SET_LOADING":
+      return {
+        ...ordersState,
+        loadingOrders: true,
+        ordersError: { isError: false, message: "" },
+      };
+
+    case "SET_ERROR":
+      return {
+        ...ordersState,
+        loadingOrders: false,
+        ordersError: {
+          isError: true,
+          message: action.payload || "An orders Error occurred",
+        },
+      };
+
+    case "GET_ORDERS_SUCCESS":
+      return {
+        ...ordersState,
+        orders: [...action.payload],
+        loadingOrders: false,
+        ordersError: { isError: false, message: "" },
+      };
+
+    default:
+      return ordersState;
+  }
+}

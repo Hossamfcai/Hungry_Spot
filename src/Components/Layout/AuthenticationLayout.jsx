@@ -2,8 +2,8 @@ import { Outlet } from "react-router-dom";
 
 export default function AuthenticationLayout() {
   return (
-    <>
-      <div>Hi from AuthenticationLayout</div> <Outlet />
-    </>
+    <div className="w-full min-h-screen flex items-center justify-center">
+      <Outlet />
+    </div>
   );
 }
