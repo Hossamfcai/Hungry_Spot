@@ -1,0 +1,388 @@
+/* =========================================================
+   MENU RESPONSIVE
+========================================================= */
+
+.menu-page {
+  width: 100%;
+  min-width: 0;
+}
+
+/* =========================================================
+   TABLE - DESKTOP
+========================================================= */
+
+.menu-table {
+  width: 100%;
+  overflow: hidden;
+}
+
+.menu-table-header,
+.menu-table-row {
+  width: 100%;
+  min-width: 0 !important;
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1024px) {
+  .menu-page {
+    padding: 20px !important;
+  }
+
+  .menu-table-header,
+  .menu-table-row {
+    grid-template-columns:
+      50px
+      minmax(220px, 1fr)
+      100px
+      75px
+      90px
+      45px !important;
+  }
+
+  .menu-table-header {
+    font-size: 7px;
+  }
+
+  .menu-table-row {
+    min-height: 70px !important;
+  }
+
+  .menu-product-info h3 {
+    font-size: 14px;
+  }
+
+  .menu-product-info p {
+    font-size: 8px;
+  }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+  /* PAGE */
+
+  .menu-page {
+    padding: 14px !important;
+  }
+
+  /* HEADER */
+
+  .menu-header {
+    padding: 20px !important;
+    gap: 18px !important;
+  }
+
+  .menu-header h1 {
+    font-size: 30px !important;
+  }
+
+  .menu-header p {
+    font-size: 10px !important;
+    line-height: 1.6;
+  }
+
+  .menu-add-btn {
+    width: 100%;
+    padding: 14px !important;
+  }
+
+  /* =====================================================
+     FILTERS
+  ===================================================== */
+
+  .menu-filters {
+    flex-direction: column !important;
+  }
+
+  .menu-search {
+    width: 100%;
+    border-right: 0 !important;
+    border-bottom: 1px solid #353438 !important;
+  }
+
+  .menu-category-filter {
+    width: 100% !important;
+  }
+
+  /* =====================================================
+     TABLE
+  ===================================================== */
+
+  .menu-table {
+    border: 0 !important;
+    background: transparent !important;
+    overflow: visible !important;
+  }
+
+  /* Hide desktop header */
+
+  .menu-table-header {
+    display: none !important;
+  }
+
+  /* =====================================================
+     PRODUCT CARD
+  ===================================================== */
+
+  .menu-table-row {
+    display: grid !important;
+
+    grid-template-columns: 1fr !important;
+
+    width: 100% !important;
+    min-width: 0 !important;
+
+    min-height: auto !important;
+
+    margin-bottom: 12px;
+
+    padding: 16px !important;
+
+    gap: 14px;
+
+    border: 1px solid #2a2a2d !important;
+
+    background: #1b1b1e;
+  }
+
+  /* =====================================================
+     PRODUCT ID
+  ===================================================== */
+
+  .menu-product-id {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding-bottom: 8px;
+
+    border-bottom: 1px solid #2a2a2d;
+  }
+
+  .menu-product-id::before {
+    content: "PRODUCT ID";
+
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #a38c7c;
+  }
+
+  /* =====================================================
+     PRODUCT
+  ===================================================== */
+
+  .menu-product {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .menu-product-image {
+    width: 55px !important;
+    height: 55px !important;
+  }
+
+  .menu-product-info {
+    min-width: 0;
+  }
+
+  .menu-product-info h3 {
+    font-size: 15px !important;
+    line-height: 1.3;
+
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: unset !important;
+  }
+
+  .menu-product-info p {
+    margin-top: 5px;
+
+    font-size: 9px !important;
+    line-height: 1.5;
+
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: unset !important;
+  }
+
+  /* =====================================================
+     CATEGORY
+  ===================================================== */
+
+  .menu-category {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    width: 100%;
+
+    padding-top: 8px;
+    border-top: 1px solid #2a2a2d;
+  }
+
+  .menu-category::before {
+    content: "CATEGORY";
+
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 1px;
+
+    color: #a38c7c;
+  }
+
+  /* =====================================================
+     PRICE
+  ===================================================== */
+
+  .menu-price {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    width: 100%;
+
+    padding-top: 8px;
+
+    border-top: 1px solid #2a2a2d;
+  }
+
+  .menu-price::before {
+    content: "PRICE";
+
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 1px;
+
+    color: #a38c7c;
+  }
+
+  /* =====================================================
+     STATUS
+  ===================================================== */
+
+  .menu-status {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    width: 100%;
+
+    padding-top: 8px;
+
+    border-top: 1px solid #2a2a2d;
+  }
+
+  .menu-status::before {
+    content: "STATUS";
+
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 1px;
+
+    color: #a38c7c;
+  }
+
+  /* =====================================================
+     EDIT BUTTON
+  ===================================================== */
+
+  .menu-edit {
+    display: flex;
+    justify-content: flex-end;
+
+    width: 100%;
+
+    padding-top: 10px;
+
+    border-top: 1px solid #2a2a2d;
+  }
+
+  .menu-edit button {
+    width: 100%;
+    height: 38px !important;
+  }
+}
+
+/* =========================================================
+   SMALL PHONES
+========================================================= */
+
+@media (max-width: 480px) {
+  .menu-page {
+    padding: 10px !important;
+  }
+
+  .menu-header {
+    padding: 16px !important;
+  }
+
+  .menu-header h1 {
+    font-size: 26px !important;
+  }
+
+  .menu-product-image {
+    width: 48px !important;
+    height: 48px !important;
+  }
+
+  .menu-product-info h3 {
+    font-size: 14px !important;
+  }
+
+  .menu-table-row {
+    padding: 13px !important;
+  }
+}
+/* =========================
+   SWEET ALERT THEME
+========================= */
+
+.restaurant-swal {
+  background: #171d1c !important;
+  color: #f5faf8 !important;
+  border: 1px solid #343d3a !important;
+  border-radius: 2px !important;
+}
+
+.restaurant-swal-title {
+  color: #f5faf8 !important;
+  font-family: Georgia, serif !important;
+  font-weight: 500 !important;
+}
+
+.restaurant-swal-text {
+  color: #aeb8b4 !important;
+  font-size: 13px !important;
+}
+
+.restaurant-swal-confirm {
+  background: #c49a5a !important;
+  color: #171d1c !important;
+  border-radius: 2px !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  letter-spacing: 1px !important;
+  padding: 11px 20px !important;
+}
+
+.restaurant-swal-cancel {
+  background: #252d2b !important;
+  color: #d7dfdc !important;
+  border: 1px solid #3a4441 !important;
+  border-radius: 2px !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  letter-spacing: 1px !important;
+  padding: 11px 20px !important;
+}
+
+.restaurant-swal-confirm:focus,
+.restaurant-swal-cancel:focus {
+  box-shadow: none !important;
+}
