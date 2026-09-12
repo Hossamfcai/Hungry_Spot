@@ -1,5 +1,6 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { LogOut } from "lucide-react";
 import {
   ChartLine,
   Package,
@@ -33,6 +34,16 @@ function Sidebar({ isOpen, onClose }) {
       icon: SlidersHorizontal,
     },
   ];
+
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("role");
+    localStorage.removeItem("isLoggedIn");
+
+    navigate("/");
+  };
 
   return (
     <>
@@ -90,6 +101,12 @@ function Sidebar({ isOpen, onClose }) {
             );
           })}
         </nav>
+        <div className="sidebar-bottom">
+          <button className="logout-btn" onClick={handleLogout}>
+            <LogOut size={20} />
+            <span>Logout</span>
+          </button>
+        </div>
       </aside>
     </>
   );
