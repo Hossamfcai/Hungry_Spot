@@ -64,7 +64,6 @@
 ========================================================= */
 
 @media (max-width: 768px) {
-
   /* PAGE */
 
   .menu-page {
@@ -315,7 +314,6 @@
 ========================================================= */
 
 @media (max-width: 480px) {
-
   .menu-page {
     padding: 10px !important;
   }
@@ -340,4 +338,51 @@
   .menu-table-row {
     padding: 13px !important;
   }
+}
+/* =========================
+   SWEET ALERT THEME
+========================= */
+
+.restaurant-swal {
+  background: #171d1c !important;
+  color: #f5faf8 !important;
+  border: 1px solid #343d3a !important;
+  border-radius: 2px !important;
+}
+
+.restaurant-swal-title {
+  color: #f5faf8 !important;
+  font-family: Georgia, serif !important;
+  font-weight: 500 !important;
+}
+
+.restaurant-swal-text {
+  color: #aeb8b4 !important;
+  font-size: 13px !important;
+}
+
+.restaurant-swal-confirm {
+  background: #c49a5a !important;
+  color: #171d1c !important;
+  border-radius: 2px !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  letter-spacing: 1px !important;
+  padding: 11px 20px !important;
+}
+
+.restaurant-swal-cancel {
+  background: #252d2b !important;
+  color: #d7dfdc !important;
+  border: 1px solid #3a4441 !important;
+  border-radius: 2px !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  letter-spacing: 1px !important;
+  padding: 11px 20px !important;
+}
+
+.restaurant-swal-confirm:focus,
+.restaurant-swal-cancel:focus {
+  box-shadow: none !important;
 }
