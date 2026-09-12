@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { useMenuDispatch, useMenuState } from "../../Contexts/AppContext";
+import "./Menu.css";
 
 export default function Menu() {
-  // GET MENU STATE + DISPATCH
+  // MENU STATE
   const { menu, loadingMenu, menuError } = useMenuState();
   const { getMenuData } = useMenuDispatch();
 
@@ -37,32 +38,48 @@ export default function Menu() {
     return matchesSearch && matchesCategory;
   });
 
+  // RENDER
   return (
-    <div className="min-h-screen w-full bg-surface p-6 text-on-surface lg:p-8">
-      {/* HEADER */}
-      <section className="mb-5 flex flex-col gap-5 border border-surface-container-high bg-surface-container-low px-7 py-6 lg:flex-row lg:items-center lg:justify-between">
+    <div className="menu-page min-h-screen w-full bg-surface p-6 text-on-surface lg:p-8">
+      {/* =====================================================
+          HEADER
+      ===================================================== */}
+
+      <section className="menu-header mb-5 flex flex-col gap-5 border border-surface-container-high bg-surface-container-low px-7 py-6 lg:flex-row lg:items-center lg:justify-between">
         <div>
           <span className="mb-1 block text-[10px] font-bold tracking-[1px] text-primary">
             MASTER REGULATION INVENTORY
           </span>
 
-          <h1 className="font-serif text-4xl font-medium tracking-tight lg:text-[42px]">
+          <h1 className="menu-header-title font-serif text-4xl font-medium tracking-tight lg:text-[42px]">
             Manage Products
           </h1>
+
+          <p className="mt-1 text-xs text-on-surface-variant">
+            Real-time culinary repertoire synchronized with RESTful endpoints{" "}
+            <span className="text-primary">(/api/menu)</span>
+          </p>
         </div>
 
-        <button className="flex items-center justify-center gap-2 bg-primary-container px-6 py-4 text-[10px] font-bold tracking-[1.2px] text-on-primary-container shadow-candlelight transition hover:brightness-110">
+        <button
+          type="button"
+          className="menu-add-btn flex items-center justify-center gap-2 bg-primary-container px-6 py-4 text-[10px] font-bold tracking-[1.2px] text-on-primary-container shadow-candlelight transition hover:brightness-110"
+        >
           <span className="text-lg leading-none">+</span>
           ADD NEW PRODUCT
         </button>
       </section>
 
-      {/* FILTERS */}
+      {/* =====================================================
+          FILTERS
+      ===================================================== */}
 
-      <section className="mb-5 flex flex-col border border-surface-container-high bg-surface-container-low lg:flex-row">
-        {/* SEARCH */}
+      <section className="menu-filters mb-5 flex flex-col border border-surface-container-high bg-surface-container-low lg:flex-row">
+        {/* =================================================
+            SEARCH
+        ================================================= */}
 
-        <div className="flex h-14 flex-1 items-center gap-3 border-b border-surface-container-high px-5 lg:border-b-0 lg:border-r">
+        <div className="menu-search flex h-14 flex-1 items-center gap-3 border-b border-surface-container-high px-5 lg:border-b-0 lg:border-r">
           <span className="text-lg text-outline">⌕</span>
 
           <input
@@ -74,9 +91,11 @@ export default function Menu() {
           />
         </div>
 
-        {/* CATEGORY FILTER */}
+        {/* =================================================
+            CATEGORY FILTER
+        ================================================= */}
 
-        <div className="relative flex h-14 w-full items-center px-5 lg:w-[270px]">
+        <div className="menu-category-filter relative flex h-14 w-full items-center px-5 lg:w-[270px]">
           <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
@@ -129,10 +148,12 @@ export default function Menu() {
             </h2>
 
             <p className="text-xs text-on-surface-variant">
-              {menuError.message}
+              {menuError.message ||
+                "Something went wrong while loading the menu."}
             </p>
 
             <button
+              type="button"
               onClick={getMenuData}
               className="mt-2 bg-primary px-5 py-2.5 text-[9px] font-bold text-on-primary transition hover:brightness-110"
             >
@@ -143,7 +164,7 @@ export default function Menu() {
       )}
 
       {/* =====================================================
-          EMPTY
+          EMPTY STATE
       ===================================================== */}
 
       {!loadingMenu && !menuError?.isError && filteredMenu?.length === 0 && (
@@ -159,50 +180,67 @@ export default function Menu() {
           </div>
         </div>
       )}
-      {/* 
-          PRODUCTS TABLE */}
+
+      {/* =====================================================
+          PRODUCTS TABLE
+      ===================================================== */}
 
       {!loadingMenu && !menuError?.isError && filteredMenu?.length > 0 && (
-        <section className="overflow-x-auto border border-surface-container-high bg-surface-container-low">
-          {/* ================= TABLE HEADER ================= */}
+        <section className="menu-table overflow-x-auto border border-surface-container-high bg-surface-container-low">
+          {/* =================================================
+                TABLE HEADER
+            ================================================= */}
 
-          <div className="grid min-h-10 min-w-[900px] grid-cols-[65px_minmax(300px,1fr)_110px_85px_100px_50px] items-center bg-surface-container-high px-3 text-[8px] font-bold tracking-wide text-outline">
+          <div className="menu-table-header grid min-h-10 min-w-[900px] grid-cols-[65px_minmax(300px,1fr)_110px_85px_100px_50px] items-center bg-surface-container-high px-3 text-[8px] font-bold tracking-wide text-outline">
+            {/* PRODUCT ID */}
+
             <div>
               PRODUCT
               <br />
               ID
             </div>
 
+            {/* PRODUCT */}
+
             <div>DISH / TITLE</div>
+
+            {/* CATEGORY */}
 
             <div>CATEGORY</div>
 
+            {/* PRICE */}
+
             <div>PRICE</div>
 
+            {/* STATUS */}
+
             <div>STATUS</div>
+
+            {/* ACTION */}
 
             <div />
           </div>
 
-          {/* ================= PRODUCTS ================= */}
+          {/* =================================================
+                PRODUCTS
+            ================================================= */}
 
           {filteredMenu.map((product) => {
-            // IMPORTANT:
-            // API returns `available`
-            // not `status`
+            // API:
+            // available: true / false
 
             const isAvailable = product.available === true;
 
             return (
               <div
                 key={product.id}
-                className="grid min-h-[73px] min-w-[900px] grid-cols-[65px_minmax(300px,1fr)_110px_85px_100px_50px] items-center border-t border-surface-container-high px-3 transition hover:bg-surface-container"
+                className="menu-table-row grid min-h-[73px] min-w-[900px] grid-cols-[65px_minmax(300px,1fr)_110px_85px_100px_50px] items-center border-t border-surface-container-high px-3 transition hover:bg-surface-container"
               >
                 {/* =================================================
                       PRODUCT ID
                   ================================================= */}
 
-                <div className="font-mono text-[9px] font-bold text-primary">
+                <div className="menu-product-id font-mono text-[9px] font-bold text-primary">
                   {product.id}
                 </div>
 
@@ -210,10 +248,10 @@ export default function Menu() {
                       PRODUCT
                   ================================================= */}
 
-                <div className="flex min-w-0 items-center gap-3">
+                <div className="menu-product flex min-w-0 items-center gap-3">
                   {/* IMAGE */}
 
-                  <div className="h-10 w-10 shrink-0 overflow-hidden border border-surface-container-highest bg-surface-container-high">
+                  <div className="menu-product-image h-10 w-10 shrink-0 overflow-hidden border border-surface-container-highest bg-surface-container-high">
                     {product.image ? (
                       <img
                         src={product.image}
@@ -232,7 +270,7 @@ export default function Menu() {
 
                   {/* TITLE + DESCRIPTION */}
 
-                  <div className="min-w-0 flex-1">
+                  <div className="menu-product-info min-w-0 flex-1">
                     <h3 className="truncate font-serif text-base font-medium text-on-surface">
                       {product.name}
                     </h3>
@@ -247,7 +285,7 @@ export default function Menu() {
                       CATEGORY
                   ================================================= */}
 
-                <div>
+                <div className="menu-category">
                   <span
                     className={`
                         inline-block px-2 py-1.5
@@ -267,9 +305,9 @@ export default function Menu() {
                       PRICE
                   ================================================= */}
 
-                <div>
+                <div className="menu-price">
                   <span className="font-serif text-base font-semibold text-on-surface">
-                    {product.price} $
+                    {product.price}
                   </span>
                 </div>
 
@@ -277,13 +315,18 @@ export default function Menu() {
                       STATUS
                   ================================================= */}
 
-                <div>
+                <div className="menu-status">
                   <button
+                    type="button"
                     className={`
                         inline-flex
-                        items-center gap-1.5
-                        px-2 py-1.5
-                        text-[8px] font-bold
+                        cursor-pointer
+                        items-center
+                        gap-1.5
+                        px-2
+                        py-1.5
+                        text-[8px]
+                        font-bold
                         tracking-wide
                         transition
                         ${
@@ -295,7 +338,9 @@ export default function Menu() {
                   >
                     <span
                       className={`
-                          h-1.5 w-1.5 rounded-full
+                          h-1.5
+                          w-1.5
+                          rounded-full
                           ${isAvailable ? "bg-green-400" : "bg-red-400"}
                         `}
                     />
@@ -305,11 +350,12 @@ export default function Menu() {
                 </div>
 
                 {/* =================================================
-                      PEN
+                      EDIT BUTTON
                   ================================================= */}
 
-                <div>
+                <div className="menu-edit">
                   <button
+                    type="button"
                     title="Edit product"
                     className="flex h-7 w-7 items-center justify-center bg-surface-container-high text-on-surface-variant transition hover:bg-surface-container-highest hover:text-primary"
                   >
