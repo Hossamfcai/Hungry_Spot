@@ -7,6 +7,14 @@ export const initialMenu = {
     message: "",
   },
 
+  // Add
+  addingMenu: false,
+
+  addMenuError: {
+    isError: false,
+    message: "",
+  },
+
   // Edit loading
   updatingMenu: false,
 
@@ -73,6 +81,56 @@ export function menuReducer(menuState, action) {
         menuError: {
           isError: false,
           message: "",
+        },
+      };
+
+    // =====================================================
+    // ADD PRODUCT LOADING
+    // =====================================================
+
+    case "ADD_MENU_LOADING":
+      return {
+        ...menuState,
+
+        addingMenu: true,
+
+        addMenuError: {
+          isError: false,
+          message: "",
+        },
+      };
+
+    // =====================================================
+    // ADD PRODUCT SUCCESS
+    // =====================================================
+
+    case "ADD_MENU_SUCCESS":
+      return {
+        ...menuState,
+
+        menu: [...menuState.menu, action.payload],
+
+        addingMenu: false,
+
+        addMenuError: {
+          isError: false,
+          message: "",
+        },
+      };
+
+    // =====================================================
+    // ADD PRODUCT ERROR
+    // =====================================================
+
+    case "ADD_MENU_ERROR":
+      return {
+        ...menuState,
+
+        addingMenu: false,
+
+        addMenuError: {
+          isError: true,
+          message: action.payload || "Failed to add menu item",
         },
       };
 

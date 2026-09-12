@@ -8,10 +8,16 @@ export default function Menu() {
   // MENU STATE
   // =====================================================
 
-  const { menu, loadingMenu, menuError, updatingMenu, updatingAvailability } =
-    useMenuState();
+  const {
+    menu,
+    loadingMenu,
+    menuError,
+    updatingMenu,
+    updatingAvailability,
+    addingMenu,
+  } = useMenuState();
 
-  const { getMenuData, updateMenuData, toggleMenuAvailability } =
+  const { getMenuData, addMenuData, updateMenuData, toggleMenuAvailability } =
     useMenuDispatch();
 
   // =====================================================
@@ -25,6 +31,21 @@ export default function Menu() {
   // =====================================================
 
   const [selectedCategory, setSelectedCategory] = useState("ALL");
+
+  // =====================================================
+  // ADD STATE
+  // =====================================================
+
+  const [isAdding, setIsAdding] = useState(false);
+
+  const [addForm, setAddForm] = useState({
+    name: "",
+    category: "",
+    price: "",
+    description: "",
+    image: "",
+    available: true,
+  });
 
   // =====================================================
   // EDIT STATE
@@ -73,6 +94,53 @@ export default function Menu() {
 
     return matchesSearch && matchesCategory;
   });
+
+  // =====================================================
+  // START ADD
+  // =====================================================
+
+  const handleStartAdd = () => {
+    setIsAdding(true);
+
+    setAddForm({
+      name: "",
+      category: "",
+      price: "",
+      description: "",
+      image: "",
+      available: true,
+    });
+  };
+
+  // =====================================================
+  // CANCEL ADD
+  // =====================================================
+
+  const handleCancelAdd = () => {
+    setIsAdding(false);
+
+    setAddForm({
+      name: "",
+      category: "",
+      price: "",
+      description: "",
+      image: "",
+      available: true,
+    });
+  };
+
+  // =====================================================
+  // HANDLE ADD INPUT
+  // =====================================================
+
+  const handleAddChange = (e) => {
+    const { name, value, type, checked } = e.target;
+
+    setAddForm((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
+  };
 
   // =====================================================
   // START EDIT
@@ -252,6 +320,137 @@ export default function Menu() {
   };
 
   // =====================================================
+  // SAVE NEW PRODUCT
+  // =====================================================
+
+  const handleAdd = async () => {
+    // -------------------------
+    // Validation
+    // -------------------------
+
+    if (!addForm.name.trim()) {
+      Swal.fire({
+        title: "Missing Name",
+        text: "Product name is required.",
+        icon: "warning",
+        confirmButtonText: "OK",
+        customClass: {
+          popup: "restaurant-swal",
+          title: "restaurant-swal-title",
+          htmlContainer: "restaurant-swal-text",
+          confirmButton: "restaurant-swal-confirm",
+        },
+      });
+
+      return;
+    }
+
+    if (addForm.price === "" || Number(addForm.price) < 0) {
+      Swal.fire({
+        title: "Invalid Price",
+        text: "Please enter a valid price.",
+        icon: "warning",
+        confirmButtonText: "OK",
+        customClass: {
+          popup: "restaurant-swal",
+          title: "restaurant-swal-title",
+          htmlContainer: "restaurant-swal-text",
+          confirmButton: "restaurant-swal-confirm",
+        },
+      });
+
+      return;
+    }
+
+    // -------------------------
+    // Confirmation
+    // -------------------------
+
+    const result = await Swal.fire({
+      title: "Add New Product?",
+      text: `Do you want to add "${addForm.name.trim()}" to the menu?`,
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Yes, add product",
+      cancelButtonText: "Cancel",
+      reverseButtons: true,
+
+      customClass: {
+        popup: "restaurant-swal",
+        title: "restaurant-swal-title",
+        htmlContainer: "restaurant-swal-text",
+        confirmButton: "restaurant-swal-confirm",
+        cancelButton: "restaurant-swal-cancel",
+      },
+    });
+
+    if (!result.isConfirmed) {
+      return;
+    }
+
+    // -------------------------
+    // Data sent to backend
+    // -------------------------
+
+    const productData = {
+      name: addForm.name.trim(),
+      category: addForm.category.trim(),
+      price: Number(addForm.price),
+      description: addForm.description.trim(),
+      image: addForm.image.trim(),
+      available: addForm.available,
+    };
+
+    // -------------------------
+    // API ADD
+    // -------------------------
+
+    const response = await addMenuData(productData);
+
+    // -------------------------
+    // SUCCESS
+    // -------------------------
+
+    if (response.success) {
+      await Swal.fire({
+        title: "Product Added!",
+        text: `"${productData.name}" has been added successfully.`,
+        icon: "success",
+        confirmButtonText: "OK",
+
+        customClass: {
+          popup: "restaurant-swal",
+          title: "restaurant-swal-title",
+          htmlContainer: "restaurant-swal-text",
+          confirmButton: "restaurant-swal-confirm",
+        },
+      });
+
+      handleCancelAdd();
+    }
+
+    // -------------------------
+    // ERROR
+    // -------------------------
+    else {
+      Swal.fire({
+        title: "Add Failed",
+        text:
+          response.message || "Something went wrong while adding the product.",
+        icon: "error",
+        confirmButtonText: "OK",
+
+        customClass: {
+          popup: "restaurant-swal",
+          title: "restaurant-swal-title",
+          htmlContainer: "restaurant-swal-text",
+          confirmButton: "restaurant-swal-confirm",
+        },
+      });
+    }
+  };
+
+  // =====================================================
   // TOGGLE AVAILABILITY
   // =====================================================
 
@@ -304,6 +503,7 @@ export default function Menu() {
 
         <button
           type="button"
+          onClick={handleStartAdd}
           className="menu-add-btn flex items-center justify-center gap-2 bg-primary-container px-6 py-4 text-[10px] font-bold tracking-[1.2px] text-on-primary-container shadow-candlelight transition hover:brightness-110"
         >
           <span className="text-lg leading-none">+</span>
@@ -354,6 +554,173 @@ export default function Menu() {
           </span>
         </div>
       </section>
+      {/* =====================================================
+    ADD PRODUCT PANEL
+===================================================== */}
+
+      {isAdding && (
+        <section className="menu-edit-panel mb-5 border border-primary/30 bg-surface-container p-5">
+          <div className="mb-5 flex items-center justify-between">
+            <div>
+              <span className="text-[9px] font-bold tracking-[1px] text-primary">
+                NEW PRODUCT
+              </span>
+
+              <h2 className="mt-1 font-serif text-2xl">Add Product</h2>
+            </div>
+
+            <button
+              type="button"
+              onClick={handleCancelAdd}
+              className="text-xl text-outline transition hover:text-primary"
+            >
+              ×
+            </button>
+          </div>
+
+          <div className="grid gap-4 md:grid-cols-2">
+            {/* NAME */}
+
+            <div>
+              <label className="mb-2 block text-[9px] font-bold tracking-wide text-outline">
+                PRODUCT NAME
+              </label>
+
+              <input
+                type="text"
+                name="name"
+                value={addForm.name}
+                onChange={handleAddChange}
+                placeholder="Enter product name"
+                className="w-full border border-surface-container-highest bg-surface-container-low px-3 py-3 text-xs text-on-surface outline-none focus:border-primary"
+              />
+            </div>
+
+            {/* CATEGORY */}
+
+            <div>
+              <label className="mb-2 block text-[9px] font-bold tracking-wide text-outline">
+                CATEGORY
+              </label>
+
+              <select
+                name="category"
+                value={addForm.category}
+                onChange={handleAddChange}
+                className="w-full border border-surface-container-highest bg-surface-container-low px-3 py-3 text-xs text-on-surface outline-none focus:border-primary"
+              >
+                <option value="" className="bg-surface-container-low">
+                  Select category
+                </option>
+
+                {categories
+                  .filter((category) => category !== "ALL")
+                  .map((category) => (
+                    <option
+                      key={category}
+                      value={category}
+                      className="bg-surface-container-low"
+                    >
+                      {category}
+                    </option>
+                  ))}
+              </select>
+            </div>
+
+            {/* PRICE */}
+
+            <div>
+              <label className="mb-2 block text-[9px] font-bold tracking-wide text-outline">
+                PRICE
+              </label>
+
+              <input
+                type="number"
+                name="price"
+                min="0"
+                value={addForm.price}
+                onChange={handleAddChange}
+                placeholder="Enter price"
+                className="w-full border border-surface-container-highest bg-surface-container-low px-3 py-3 text-xs text-on-surface outline-none focus:border-primary"
+              />
+            </div>
+
+            {/* IMAGE */}
+
+            <div>
+              <label className="mb-2 block text-[9px] font-bold tracking-wide text-outline">
+                IMAGE URL
+              </label>
+
+              <input
+                type="text"
+                name="image"
+                value={addForm.image}
+                onChange={handleAddChange}
+                placeholder="https://..."
+                className="w-full border border-surface-container-highest bg-surface-container-low px-3 py-3 text-xs text-on-surface outline-none focus:border-primary"
+              />
+            </div>
+
+            {/* DESCRIPTION */}
+
+            <div className="md:col-span-2">
+              <label className="mb-2 block text-[9px] font-bold tracking-wide text-outline">
+                DESCRIPTION
+              </label>
+
+              <textarea
+                name="description"
+                value={addForm.description}
+                onChange={handleAddChange}
+                rows="3"
+                placeholder="Enter product description"
+                className="w-full resize-none border border-surface-container-highest bg-surface-container-low px-3 py-3 text-xs text-on-surface outline-none focus:border-primary"
+              />
+            </div>
+
+            {/* AVAILABILITY */}
+
+            <div className="md:col-span-2">
+              <label className="flex cursor-pointer items-center gap-3 text-xs text-on-surface">
+                <input
+                  type="checkbox"
+                  name="available"
+                  checked={addForm.available}
+                  onChange={handleAddChange}
+                  className="h-4 w-4 accent-primary"
+                />
+
+                <span className="text-[9px] font-bold tracking-wide text-outline">
+                  AVAILABLE
+                </span>
+              </label>
+            </div>
+          </div>
+
+          {/* BUTTONS */}
+
+          <div className="mt-5 flex flex-col justify-end gap-3 sm:flex-row">
+            <button
+              type="button"
+              onClick={handleCancelAdd}
+              disabled={addingMenu}
+              className="border border-surface-container-highest px-6 py-3 text-[9px] font-bold tracking-wide text-on-surface-variant transition hover:bg-surface-container-highest disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              CANCEL
+            </button>
+
+            <button
+              type="button"
+              onClick={handleAdd}
+              disabled={addingMenu}
+              className="bg-primary px-6 py-3 text-[9px] font-bold tracking-wide text-on-primary transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              {addingMenu ? "ADDING..." : "ADD PRODUCT"}
+            </button>
+          </div>
+        </section>
+      )}
 
       {/* =====================================================
           LOADING
@@ -446,9 +813,8 @@ export default function Menu() {
 
           {/* PRODUCTS */}
 
-          {filteredMenu.map((product) => {
+          {filteredMenu.map((product, index) => {
             const isAvailable = product.available === true;
-
             const isEditing = editingId === product.id;
 
             return (
@@ -605,7 +971,7 @@ export default function Menu() {
                   {/* PRODUCT ID */}
 
                   <div className="menu-product-id font-mono text-[9px] font-bold text-primary">
-                    {product.id}
+                    {index + 1}
                   </div>
 
                   {/* PRODUCT */}

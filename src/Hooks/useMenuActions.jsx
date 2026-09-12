@@ -2,6 +2,7 @@ import { useCallback } from "react";
 
 import {
   getMenuService,
+  addMenuService,
   updateMenuService,
   updateMenuAvailabilityService,
 } from "../Services/menuServices";
@@ -40,6 +41,46 @@ export function useMenuActions(dispatch) {
       };
     }
   }, [dispatch]);
+
+  // =========================
+  // Add Product
+  // =========================
+
+  const addMenuData = useCallback(
+    async (productData) => {
+      dispatch({
+        type: "ADD_MENU_LOADING",
+      });
+
+      try {
+        const response = await addMenuService(productData);
+
+        dispatch({
+          type: "ADD_MENU_SUCCESS",
+          payload: response,
+        });
+
+        return {
+          success: true,
+          data: response,
+        };
+      } catch (err) {
+        const message =
+          err.response?.data?.message || err.message || "Failed to add product";
+
+        dispatch({
+          type: "ADD_MENU_ERROR",
+          payload: message,
+        });
+
+        return {
+          success: false,
+          message,
+        };
+      }
+    },
+    [dispatch],
+  );
 
   // =========================
   // Update Product
@@ -128,6 +169,7 @@ export function useMenuActions(dispatch) {
   // =========================
   return {
     getMenuData,
+    addMenuData,
     updateMenuData,
     toggleMenuAvailability,
   };

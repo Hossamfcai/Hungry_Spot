@@ -17,6 +17,26 @@ export async function getMenuService() {
 }
 
 // =========================
+// ADD MENU ITEM
+// =========================
+
+export async function addMenuService(productData) {
+  const token = localStorage.getItem("token");
+
+  const response = await axios.post(MENU_URL, productData, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (response.status < 200 || response.status >= 300) {
+    throw new Error(`Failed to add menu item (${response.status})`);
+  }
+
+  return response?.data?.data;
+}
+
+// =========================
 // UPDATE MENU ITEM
 // =========================
 
