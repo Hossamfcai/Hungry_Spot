@@ -494,11 +494,6 @@ export default function Menu() {
           <h1 className="menu-header-title font-serif text-4xl font-medium tracking-tight lg:text-[42px]">
             Manage Products
           </h1>
-
-          <p className="mt-1 text-xs text-on-surface-variant">
-            Real-time culinary repertoire synchronized with RESTful endpoints{" "}
-            <span className="text-primary">(/api/menu)</span>
-          </p>
         </div>
 
         <button
