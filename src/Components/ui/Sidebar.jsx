@@ -1,38 +1,36 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faTableCellsLarge,
-  faBoxOpen,
-  faUsers,
-  faChartLine,
-  faSliders,
-  faXmark,
-  faWandMagicSparkles,
-} from "@fortawesome/free-solid-svg-icons";
+  ChartLine,
+  Package,
+  Users,
+  SlidersHorizontal,
+  X,
+  WandSparkles,
+} from "lucide-react";
 
 function Sidebar({ isOpen, onClose }) {
   const navItems = [
     {
       name: "Analytics Dashboard",
       path: "/Dashboard/Statistics",
-      icon: faChartLine,
+      icon: ChartLine,
     },
     {
       name: "Manage Products",
       path: "/Dashboard/Menu",
-      icon: faBoxOpen,
+      icon: Package,
       badge: "24 Items",
     },
     {
       name: "Manage Users",
       path: "/Dashboard/Users",
-      icon: faUsers,
+      icon: Users,
     },
     {
       name: "Manage Orders",
       path: "/Dashboard/Orders",
-      icon: faSliders,
+      icon: SlidersHorizontal,
     },
   ];
 
@@ -49,7 +47,7 @@ function Sidebar({ isOpen, onClose }) {
         {/* Brand */}
         <div className="sidebar-brand">
           <div className="brand-icon">
-            <FontAwesomeIcon icon={faWandMagicSparkles} />
+            <WandSparkles />
           </div>
 
           <div>
@@ -63,30 +61,34 @@ function Sidebar({ isOpen, onClose }) {
             onClick={onClose}
             aria-label="Close sidebar"
           >
-            <FontAwesomeIcon icon={faXmark} />
+            <X />
           </button>
         </div>
 
         {/* Navigation */}
         <nav className="sidebar-nav">
-          {navItems.map((item) => (
-            <NavLink
-              key={item.name}
-              to={item.path}
-              onClick={onClose}
-              className={({ isActive }) =>
-                `sidebar-link ${isActive ? "active" : ""}`
-              }
-            >
-              <FontAwesomeIcon icon={item.icon} />
+          {navItems.map((item) => {
+            const Icon = item.icon;
 
-              <span className="sidebar-link-text">{item.name}</span>
+            return (
+              <NavLink
+                key={item.name}
+                to={item.path}
+                onClick={onClose}
+                className={({ isActive }) =>
+                  `sidebar-link ${isActive ? "active" : ""}`
+                }
+              >
+                <Icon />
 
-              {item.badge && (
-                <span className="sidebar-badge">{item.badge}</span>
-              )}
-            </NavLink>
-          ))}
+                <span className="sidebar-link-text">{item.name}</span>
+
+                {item.badge && (
+                  <span className="sidebar-badge">{item.badge}</span>
+                )}
+              </NavLink>
+            );
+          })}
         </nav>
       </aside>
     </>

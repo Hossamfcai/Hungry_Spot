@@ -1,30 +1,46 @@
 import { Outlet } from "react-router-dom";
-import { useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars } from "@fortawesome/free-solid-svg-icons";
+import { useEffect, useState } from "react";
+import { Menu } from "lucide-react";
 
 import Sidebar from "../ui/Sidebar.jsx";
 import "./DashboardLayout.css";
 
 export default function DashboardLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1241) {
+        setSidebarOpen(false);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
     <>
       <div className="dashboard-layout">
-        {/* Sidebar */}
         <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
-        {/* Mobile hamburger */}
-        <button
-          className="sidebar-toggle"
-          onClick={() => setSidebarOpen(true)}
-          aria-label="Open sidebar"
-        >
-          <FontAwesomeIcon icon={faBars} />
-        </button>
+        {/* Mobile Navbar */}
+        <header className="mobile-navbar">
+          {!sidebarOpen && (
+            <button
+              className="sidebar-toggle"
+              onClick={() => setSidebarOpen(true)}
+              aria-label="Open sidebar"
+            >
+              <Menu size={24} />
+            </button>
+          )}
 
-        {/* Main Content */}
+          <h2>SALON RESERVE</h2>
+        </header>
+
         <main className="dashboard-content">
           <Outlet />
         </main>
