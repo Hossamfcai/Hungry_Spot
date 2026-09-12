@@ -6,7 +6,7 @@ import Footer from "../../Components/ui/Footer";
 import Navbar from "../../Components/ui/Navbar";
 import SectionHeading from "../../Components/ui/SectionHeading";
 import Stat from "../../Components/ui/Stat";
-
+import { useNavigate } from "react-router-dom";
 import HeroPhoto from "../../assets/images/HeroPhoto.png";
 
 import "./LandingPage.css";
@@ -72,7 +72,7 @@ const dishes = [
 
 export default function LandingPage() {
   const { hash } = useLocation();
-
+  const navigate = useNavigate();
   useEffect(() => {
     if (hash) {
       // Remove the '#' to get the target ID
@@ -125,13 +125,9 @@ export default function LandingPage() {
 
                 <Button
                   variant="outline"
-                  onClick={() =>
-                    document
-                      .getElementById("reservation")
-                      ?.scrollIntoView({ behavior: "smooth" })
-                  }
+                  onClick={() => navigate("/Authentication/Login")}
                 >
-                  Reserve a table
+                  Order Now
                 </Button>
               </div>
 
@@ -248,7 +244,11 @@ export default function LandingPage() {
               description="A rotating selection inspired by the market, refined by our kitchen, and designed to be enjoyed slowly."
             />
 
-            <Button variant="outline" className="self-start md:self-auto">
+            <Button
+              variant="outline"
+              onClick={() => navigate("/Authentication/Login")}
+              className="self-start md:self-auto"
+            >
               View full menu
             </Button>
           </div>
@@ -334,7 +334,9 @@ export default function LandingPage() {
               </p>
             </div>
 
-            <Button>Order from us</Button>
+            <Button onClick={() => navigate("/Authentication/Login")}>
+              Order from us
+            </Button>
           </div>
         </section>
       </main>

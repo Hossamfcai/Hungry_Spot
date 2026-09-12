@@ -29,9 +29,7 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const closeMenu = () => {
-    setOpen(false);
-  };
+
   console.log(location.pathname.includes("/Authentication"));
   console.log(location.pathname);
   return (
@@ -75,14 +73,8 @@ export default function Navbar() {
         <div
           className={`hidden md:block ${location.pathname.includes("/Authentication") ? "invisible" : ""}`}
         >
-          <Button
-            onClick={() =>
-              document
-                .getElementById("reservation")
-                ?.scrollIntoView({ behavior: "smooth" })
-            }
-          >
-            Reserve a Table
+          <Button onClick={() => navigate("/Authentication/Login")}>
+            Order Now
           </Button>
         </div>
 
@@ -126,17 +118,8 @@ export default function Navbar() {
             })}
 
             {!location.pathname.includes("/Authentication") && (
-              <Button
-                className="mt-2 w-full"
-                onClick={() => {
-                  closeMenu();
-
-                  document
-                    .getElementById("reservation")
-                    ?.scrollIntoView({ behavior: "smooth" });
-                }}
-              >
-                Reserve a Table
+              <Button onClick={() => navigate("/Authentication/Login")}>
+                Order Now
               </Button>
             )}
           </div>
