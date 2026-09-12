@@ -8,7 +8,7 @@ export default function ProtectedAuth() {
     if (role == "admin") {
       return <Navigate to="/Dashboard" replace />;
     }
-    return <Navigate to="/Resturant" replace />;
+    return <Navigate to="/Restaurant" replace />;
   }
   return <Outlet />;
 }

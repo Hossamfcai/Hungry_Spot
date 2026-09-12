@@ -40,7 +40,7 @@ export default function AppRouter() {
       </Route>
       {/* admin and user have access to this route */}
       <Route element={<ProtectedRoute allowedRoles={["admin", "user"]} />}>
-        <Route path="/Resturant" element={<ResturantPage />} />
+        <Route path="/Restaurant" element={<ResturantPage />} />
       </Route>
       {/* Unkown Path */}
       <Route path="*" element={<NotFoundPage />} />

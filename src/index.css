@@ -97,3 +97,53 @@
   --radius-xl: 0.75rem;
   --radius-full: 9999px;
 }
+
+/* Target autofilled inputs across WebKit browsers (Chrome, Edge, Safari) */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  /* Use a large inset box-shadow to cover the white background */
+  -webkit-box-shadow: 0 0 0 30px var(--color-surface-container-low) inset !important;
+  /* Set the text color to match your theme */
+  -webkit-text-fill-color: var(--color-on-surface) !important;
+  /* Preserve smooth background rendering */
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Custom Scrollbar Styles using Design System Variables */
+
+/* 1. Modern Standard (Firefox & modern browsers) */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-surface-container-highest)
+    var(--color-surface-container-lowest);
+}
+
+/* 2. WebKit Browsers (Chrome, Edge, Safari) */
+::-webkit-scrollbar {
+  width: var(--spacing-space-xs); /* 0.5rem (8px) */
+  height: var(--spacing-space-xs); /* For horizontal scrollbars */
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-surface-container-lowest); /* #0e0e11 */
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-surface-container-highest); /* #353438 */
+  border-radius: var(--radius-full); /* 9999px */
+  border: 2px solid var(--color-surface-container-lowest); /* Creates padding inside track */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-outline); /* #a38c7c */
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: var(--color-primary); /* #ffb77d */
+}
+
+::-webkit-scrollbar-corner {
+  background: var(--color-surface-container-lowest);
+}

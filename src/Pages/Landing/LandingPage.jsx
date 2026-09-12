@@ -1,21 +1,17 @@
-import {
-  CalendarDays,
-  Clock3,
-  MapPin,
-  Quote,
-  ArrowDown,
-} from "lucide-react";
+import { CalendarDays, Clock3, MapPin, Quote, ArrowDown } from "lucide-react";
 
-import Button from "../../components/ui/Button";
-import FoodCard from "../../components/ui/FoodCard";
-import Footer from "../../components/ui/Footer";
-import Navbar from "../../components/ui/Navbar";
-import SectionHeading from "../../components/ui/SectionHeading";
-import Stat from "../../components/ui/Stat";
+import Button from "../../Components/ui/Button";
+import FoodCard from "../../Components/ui/FoodCard";
+import Footer from "../../Components/ui/Footer";
+import Navbar from "../../Components/ui/Navbar";
+import SectionHeading from "../../Components/ui/SectionHeading";
+import Stat from "../../Components/ui/Stat";
 
 import HeroPhoto from "../../assets/images/HeroPhoto.png";
 
 import "./LandingPage.css";
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 const dishes = [
   {
@@ -75,41 +71,45 @@ const dishes = [
 ];
 
 export default function LandingPage() {
+  const { hash } = useLocation();
+
+  useEffect(() => {
+    if (hash) {
+      // Remove the '#' to get the target ID
+      const element = document.getElementById(hash.replace("#", ""));
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  }, [hash]);
   return (
     <div className="landing-page min-h-screen overflow-x-hidden bg-background text-on-background">
-
       <Navbar />
 
       <main>
-
         {/* =====================================================
             HERO
         ====================================================== */}
         <section className="relative overflow-hidden border-b border-outline-variant/25">
-
           <div className="absolute left-1/2 top-0 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-primary/5 blur-[120px]" />
 
           <div className="relative mx-auto grid max-w-7xl items-center gap-10 px-5 py-14 lg:grid-cols-[0.9fr_1.1fr] lg:px-10 lg:py-20">
-
             {/* HERO CONTENT */}
             <div className="relative z-10">
-
               <p className="mb-4 text-[10px] font-semibold uppercase tracking-[0.3em] text-primary">
                 Fine dining · seasonal craft
               </p>
 
               <h1 className="max-w-xl font-serif text-5xl leading-[0.95] text-on-surface sm:text-6xl lg:text-7xl">
                 Elevate Your Palate with{" "}
-                <span className="italic text-primary">
-                  Artisanal
-                </span>{" "}
+                <span className="italic text-primary">Artisanal</span>{" "}
                 Gastronomy
               </h1>
 
               <p className="mt-6 max-w-lg text-sm leading-7 text-on-surface-variant">
-                Discover a dining experience where seasonal ingredients,
-                elegant technique, and intimate hospitality come together on
-                every plate.
+                Discover a dining experience where seasonal ingredients, elegant
+                technique, and intimate hospitality come together on every
+                plate.
               </p>
 
               <div className="mt-8 flex flex-wrap gap-3">
@@ -136,31 +136,19 @@ export default function LandingPage() {
               </div>
 
               <div className="mt-10 grid max-w-md grid-cols-3 gap-5">
-                <Stat
-                  value="12+"
-                  label="Years of craft"
-                />
+                <Stat value="12+" label="Years of craft" />
 
-                <Stat
-                  value="4.9/5"
-                  label="Guest rating"
-                />
+                <Stat value="4.9/5" label="Guest rating" />
 
-                <Stat
-                  value="38"
-                  label="Seasonal dishes"
-                />
+                <Stat value="38" label="Seasonal dishes" />
               </div>
-
             </div>
 
             {/* HERO IMAGE */}
             <div className="relative">
-
               <div className="absolute -inset-5 rounded-full bg-primary/10 blur-3xl" />
 
               <div className="relative overflow-hidden rounded-md border border-outline-variant/40 bg-surface-container">
-
                 <img
                   src={HeroPhoto}
                   alt="Signature dish served at Hungry Spot"
@@ -168,7 +156,6 @@ export default function LandingPage() {
                 />
 
                 <div className="absolute inset-x-0 bottom-0 flex items-end justify-between bg-gradient-to-t from-black/95 via-black/50 to-transparent px-5 pb-5 pt-24">
-
                   <div>
                     <p className="font-serif text-lg text-white">
                       Chef's signature
@@ -182,13 +169,9 @@ export default function LandingPage() {
                   <span className="text-sm font-semibold text-primary">
                     $42
                   </span>
-
                 </div>
-
               </div>
-
             </div>
-
           </div>
 
           <div className="hidden pb-6 text-center lg:block">
@@ -197,9 +180,7 @@ export default function LandingPage() {
               className="mx-auto animate-bounce text-primary/70"
             />
           </div>
-
         </section>
-
 
         {/* =====================================================
             RESERVATION
@@ -208,9 +189,7 @@ export default function LandingPage() {
           id="reservation"
           className="border-b border-outline-variant/25 bg-surface-container-low px-5 py-8 lg:px-10"
         >
-
           <div className="mx-auto grid max-w-7xl gap-5 lg:grid-cols-[1.1fr_1fr_0.8fr] lg:items-center">
-
             <div>
               <p className="text-[10px] uppercase tracking-[0.22em] text-primary">
                 Reservations
@@ -226,15 +205,11 @@ export default function LandingPage() {
             </div>
 
             <div className="grid grid-cols-3 gap-2">
-
               <button
                 type="button"
                 className="flex items-center gap-2 border border-outline-variant/40 bg-surface px-3 py-3 text-xs text-on-surface-variant transition hover:border-primary"
               >
-                <CalendarDays
-                  size={14}
-                  className="shrink-0 text-primary"
-                />
+                <CalendarDays size={14} className="shrink-0 text-primary" />
                 <span>Date</span>
               </button>
 
@@ -242,10 +217,7 @@ export default function LandingPage() {
                 type="button"
                 className="flex items-center gap-2 border border-outline-variant/40 bg-surface px-3 py-3 text-xs text-on-surface-variant transition hover:border-primary"
               >
-                <Clock3
-                  size={14}
-                  className="shrink-0 text-primary"
-                />
+                <Clock3 size={14} className="shrink-0 text-primary" />
                 <span>Time</span>
               </button>
 
@@ -253,23 +225,14 @@ export default function LandingPage() {
                 type="button"
                 className="flex items-center gap-2 border border-outline-variant/40 bg-surface px-3 py-3 text-xs text-on-surface-variant transition hover:border-primary"
               >
-                <MapPin
-                  size={14}
-                  className="shrink-0 text-primary"
-                />
+                <MapPin size={14} className="shrink-0 text-primary" />
                 <span>Guests</span>
               </button>
-
             </div>
 
-            <Button className="w-full">
-              Check availability
-            </Button>
-
+            <Button className="w-full">Check availability</Button>
           </div>
-
         </section>
-
 
         {/* =====================================================
             MENU
@@ -278,37 +241,24 @@ export default function LandingPage() {
           id="menu"
           className="mx-auto max-w-7xl px-5 py-20 lg:px-10 lg:py-28"
         >
-
           <div className="flex flex-col justify-between gap-8 md:flex-row md:items-end">
-
             <SectionHeading
               eyebrow="Curated menu"
               title="The Autumn Tasting Collection"
               description="A rotating selection inspired by the market, refined by our kitchen, and designed to be enjoyed slowly."
             />
 
-            <Button
-              variant="outline"
-              className="self-start md:self-auto"
-            >
+            <Button variant="outline" className="self-start md:self-auto">
               View full menu
             </Button>
-
           </div>
 
           <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-
             {dishes.map((dish) => (
-              <FoodCard
-                key={dish.title}
-                {...dish}
-              />
+              <FoodCard key={dish.title} {...dish} />
             ))}
-
           </div>
-
         </section>
-
 
         {/* =====================================================
             ABOUT
@@ -317,12 +267,9 @@ export default function LandingPage() {
           id="about"
           className="border-y border-outline-variant/25 bg-surface-container-lowest"
         >
-
           <div className="mx-auto grid max-w-7xl gap-10 px-5 py-20 lg:grid-cols-[0.85fr_1.15fr] lg:px-10 lg:py-28">
-
             {/* IMAGE COLLAGE */}
             <div className="grid grid-cols-2 gap-3">
-
               <img
                 src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?auto=format&fit=crop&w=900&q=80"
                 alt="Chef preparing food"
@@ -334,12 +281,10 @@ export default function LandingPage() {
                 alt="Artisan plated dish"
                 className="h-[360px] w-full rounded-md object-cover"
               />
-
             </div>
 
             {/* STORY */}
             <div className="flex flex-col justify-center">
-
               <SectionHeading
                 eyebrow="The Atelier Ethos"
                 title="Where ingredients become stories."
@@ -347,11 +292,7 @@ export default function LandingPage() {
               />
 
               <blockquote className="mt-8 border-l border-primary pl-5">
-
-                <Quote
-                  size={20}
-                  className="mb-3 text-primary"
-                />
+                <Quote size={20} className="mb-3 text-primary" />
 
                 <p className="font-serif text-lg italic leading-8 text-on-surface">
                   “The finest luxury is not excess. It is intention.”
@@ -360,40 +301,25 @@ export default function LandingPage() {
                 <footer className="mt-3 text-[10px] uppercase tracking-[0.2em] text-on-surface-variant">
                   — Executive Chef, Hungry Spot
                 </footer>
-
               </blockquote>
 
               <div className="mt-8 flex flex-wrap items-center gap-5">
-
-                <Button>
-                  Discover our story
-                </Button>
+                <Button>Discover our story</Button>
 
                 <span className="text-xs text-on-surface-variant">
                   Farm-to-table · Small batch · Made daily
                 </span>
-
               </div>
-
             </div>
-
           </div>
-
         </section>
-
 
         {/* =====================================================
             DELIVERY / CONTACT
         ====================================================== */}
-        <section
-          id="contact"
-          className="px-5 py-20 lg:px-10 lg:py-28"
-        >
-
+        <section id="contact" className="px-5 py-20 lg:px-10 lg:py-28">
           <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-8 rounded-md border border-outline-variant/40 bg-surface-container-low p-8 md:flex-row md:items-center lg:p-12">
-
             <div>
-
               <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-primary">
                 At your table
               </p>
@@ -406,21 +332,14 @@ export default function LandingPage() {
                 Bring the Hungry Spot experience home with carefully packed
                 signatures, prepared fresh and delivered with the same care.
               </p>
-
             </div>
 
-            <Button>
-              Order from us
-            </Button>
-
+            <Button>Order from us</Button>
           </div>
-
         </section>
-
       </main>
 
       <Footer />
-
     </div>
   );
 }

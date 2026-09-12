@@ -1,21 +1,23 @@
 import Logo from "./Logo";
+import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function Footer() {
+  const location = useLocation();
+  const navigate = useNavigate();
   return (
     <footer className="border-t border-outline-variant/30 bg-surface-container-lowest">
       <div className="mx-auto grid max-w-7xl gap-10 px-5 py-14 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.2fr] lg:px-10">
-
         {/* BRAND */}
         <div>
           <Logo />
 
           <p className="mt-5 max-w-sm text-xs leading-6 text-on-surface-variant">
-            A contemporary dining experience built around seasonal
-            ingredients, thoughtful craft, and warm hospitality.
+            A contemporary dining experience built around seasonal ingredients,
+            thoughtful craft, and warm hospitality.
           </p>
 
           <div className="mt-5 flex gap-3">
-
             {/* Instagram */}
             <a
               href="#"
@@ -55,7 +57,6 @@ export default function Footer() {
             >
               𝕏
             </a>
-
           </div>
         </div>
 
@@ -65,19 +66,56 @@ export default function Footer() {
             Explore
           </p>
 
-          <div className="mt-5 flex flex-col gap-3 text-xs text-on-surface-variant">
-            <a href="#menu" className="transition hover:text-primary">
-              Our menu
-            </a>
+          {location.pathname.includes("/Authentication") ? (
+            <div className="mt-5 flex flex-col gap-3 text-xs text-on-surface-variant">
+              <a
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigate("/landingpage#menu");
+                }}
+                href="#menu"
+                className="transition hover:text-primary"
+              >
+                Our menu
+              </a>
 
-            <a href="#about" className="transition hover:text-primary">
-              Our story
-            </a>
+              <a
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigate("/landingpage#about");
+                }}
+                href="#about"
+                className="transition hover:text-primary"
+              >
+                Our story
+              </a>
 
-            <a href="#contact" className="transition hover:text-primary">
-              Contact
-            </a>
-          </div>
+              <a
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigate("/landingpage#contact");
+                }}
+                href="#contact"
+                className="transition hover:text-primary"
+              >
+                Contact
+              </a>
+            </div>
+          ) : (
+            <div className="mt-5 flex flex-col gap-3 text-xs text-on-surface-variant">
+              <a href="#menu" className="transition hover:text-primary">
+                Our menu
+              </a>
+
+              <a href="#about" className="transition hover:text-primary">
+                Our story
+              </a>
+
+              <a href="#contact" className="transition hover:text-primary">
+                Contact
+              </a>
+            </div>
+          )}
         </div>
 
         {/* VISIT */}
@@ -89,9 +127,7 @@ export default function Footer() {
           <div className="mt-5 text-xs leading-6 text-on-surface-variant">
             <p>18 Artisan Avenue</p>
             <p>Downtown District</p>
-            <p className="mt-2">
-              Daily · 12 PM — 12 AM
-            </p>
+            <p className="mt-2">Daily · 12 PM — 12 AM</p>
           </div>
         </div>
 
@@ -120,7 +156,6 @@ export default function Footer() {
             </button>
           </div>
         </div>
-
       </div>
 
       <div className="border-t border-outline-variant/20 px-5 py-5 text-center text-[9px] uppercase tracking-[0.15em] text-on-surface-variant">

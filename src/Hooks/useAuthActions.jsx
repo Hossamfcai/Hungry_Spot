@@ -9,11 +9,20 @@ export function useAuthActions(dispatch) {
       try {
         const response = await loginService(body);
         dispatch({ type: "LOGIN_SUCCESS", payload: response });
+        return response;
       } catch (err) {
+        console.log();
+        const errorMessage =
+          err.status == 401
+            ? "Invalid email or password."
+            : err.message == "Network Error"
+              ? "Unable to connect to the server now try again later or check your network"
+              : "";
         dispatch({
           type: "SET_ERROR",
-          payload: err.message || "Error fetching products",
+          payload: errorMessage,
         });
+        throw err instanceof Error ? err : new Error(errorMessage);
       }
     },
     [dispatch],

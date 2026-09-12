@@ -25,7 +25,7 @@ export function authReducer(authState, action) {
         loading: false,
         error: {
           isError: true,
-          message: action.payload || "An error occurred", // Dynamic error message
+          message: action.payload, // Dynamic error message
         },
       };
 

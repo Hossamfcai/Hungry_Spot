@@ -4,8 +4,10 @@ export async function loginService(body) {
     `http://localhost:5000/api/auth/login`,
     body,
   );
-  if (response.status !== 200)
-    throw new Error(`Failed to login (${response.status})`);
+  if (response.status !== 200 && response.status === 401) {
+    throw new Error(`Failed to login ${response.status}`);
+  }
+
   const { token, user } = response.data.data;
 
   localStorage.setItem("token", token);

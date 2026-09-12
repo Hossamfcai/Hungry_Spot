@@ -1,6 +1,8 @@
+/* eslint-disable no-constant-condition */
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
-
+import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Logo from "./Logo";
 import Button from "./Button";
 
@@ -25,39 +27,54 @@ const links = [
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
-
+  const location = useLocation();
+  const navigate = useNavigate();
   const closeMenu = () => {
     setOpen(false);
   };
-
+  console.log(location.pathname.includes("/Authentication"));
+  console.log(location.pathname);
   return (
     <header className="sticky top-0 z-50 border-b border-outline-variant/30 bg-surface/90 backdrop-blur-xl">
-
-      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 lg:px-10">
-
+      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between  px-5 lg:px-10">
         <Logo />
 
         {/* DESKTOP NAVIGATION */}
         <nav className="hidden items-center gap-8 md:flex">
-
-          {links.map((link, index) => (
-            <a
-              key={link.label}
-              href={link.href}
-              className={`text-xs uppercase tracking-[0.18em] transition-colors ${
-                index === 0
-                  ? "text-primary"
-                  : "text-on-surface-variant hover:text-primary"
-              }`}
-            >
-              {link.label}
-            </a>
-          ))}
-
+          {links.map((link, index) => {
+            return location.pathname === "/Authentication/Login" ||
+              location.pathname === "/Authentication/Sign_Up" ? (
+              <a
+                key={link.label}
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigate(`/landingpage${link.href}`);
+                }}
+                className={`text-xs uppercase tracking-[0.18em] transition-all text-on-surface-variant hover:text-primary cursor-pointer `}
+              >
+                {link.label}
+              </a>
+            ) : (
+              <a
+                key={link.label}
+                href={link.href}
+                className={`text-xs uppercase tracking-[0.18em] transition-all cursor-pointer ${
+                  index === 0
+                    ? "text-primary"
+                    : "text-on-surface-variant hover:text-primary"
+                }`}
+              >
+                {link.label}
+              </a>
+            );
+          })}
         </nav>
 
         {/* DESKTOP BUTTON */}
-        <div className="hidden md:block">
+
+        <div
+          className={`hidden md:block ${location.pathname.includes("/Authentication") ? "invisible" : ""}`}
+        >
           <Button
             onClick={() =>
               document
@@ -78,44 +95,53 @@ export default function Navbar() {
         >
           {open ? <X size={24} /> : <Menu size={24} />}
         </button>
-
       </div>
 
       {/* MOBILE NAVIGATION */}
       {open && (
         <nav className="border-t border-outline-variant/30 bg-surface px-5 py-5 md:hidden">
-
           <div className="flex flex-col gap-4">
+            {links.map((link) => {
+              return location.pathname === "/Authentication/Login" ||
+                location.pathname === "/Authentication/Sign_Up" ? (
+                <a
+                  key={link.label}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigate(`/landingpage${link.href}`);
+                  }}
+                  className={`text-xs uppercase tracking-[0.18em] transition-all text-on-surface-variant hover:text-primary cursor-pointer `}
+                >
+                  {link.label}
+                </a>
+              ) : (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  className="text-xs uppercase tracking-[0.18em] transition-all cursor-pointer text-on-surface-variant hover:text-primary"
+                >
+                  {link.label}
+                </a>
+              );
+            })}
 
-            {links.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                onClick={closeMenu}
-                className="text-sm uppercase tracking-[0.16em] text-on-surface-variant transition hover:text-primary"
+            {!location.pathname.includes("/Authentication") && (
+              <Button
+                className="mt-2 w-full"
+                onClick={() => {
+                  closeMenu();
+
+                  document
+                    .getElementById("reservation")
+                    ?.scrollIntoView({ behavior: "smooth" });
+                }}
               >
-                {link.label}
-              </a>
-            ))}
-
-            <Button
-              className="mt-2 w-full"
-              onClick={() => {
-                closeMenu();
-
-                document
-                  .getElementById("reservation")
-                  ?.scrollIntoView({ behavior: "smooth" });
-              }}
-            >
-              Reserve a Table
-            </Button>
-
+                Reserve a Table
+              </Button>
+            )}
           </div>
-
         </nav>
       )}
-
     </header>
   );
 }

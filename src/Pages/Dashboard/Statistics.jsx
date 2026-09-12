@@ -15,7 +15,7 @@ export default function Statistics() {
   const { users, loadingUsersData, usersDataError } = useUsersState();
   const { getAllUsersData } = useUsersDispatch();
   const { getUserData } = useAuthDispatch();
-  const { menu } = useMenuState();
+  const { menu, loadingMenu, menuError } = useMenuState();
   const { getMenuData } = useMenuDispatch();
   const { orders, loadingOrders, ordersError } = useOrdersState();
   const { getOrdersData } = useOrdersDispatch();
