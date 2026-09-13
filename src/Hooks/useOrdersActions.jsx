@@ -1,5 +1,8 @@
 import { useCallback } from "react";
-import { getOrdersService } from "../Services/ordersServices";
+import {
+  getOrdersService,
+  updateOrderStatusService,
+} from "../Services/ordersServices";
 
 export function useOrdersActions(dispatch) {
   const getOrdersData = useCallback(async () => {
@@ -14,7 +17,28 @@ export function useOrdersActions(dispatch) {
       });
     }
   }, [dispatch]);
+
+  const updateOrderStatus = useCallback(
+    async (orderId, status) => {
+      try {
+        const response = await updateOrderStatusService(orderId, status);
+
+        dispatch({
+          type: "UPDATE_ORDER_STATUS_SUCCESS",
+          payload: response,
+        });
+      } catch (err) {
+        dispatch({
+          type: "SET_ERROR",
+          payload: "Failed to update Order status",
+        });
+      }
+    },
+    [dispatch],
+  );
+
   return {
     getOrdersData,
+    updateOrderStatus,
   };
 }

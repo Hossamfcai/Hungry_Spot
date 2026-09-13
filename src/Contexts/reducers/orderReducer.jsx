@@ -31,6 +31,15 @@ export function ordresReducer(ordersState, action) {
         ordersError: { isError: false, message: "" },
       };
 
+    case "UPDATE_ORDER_STATUS_SUCCESS":
+      return {
+        ...ordersState,
+        orders: ordersState.orders.map((order) =>
+          order.id === action.payload.id ? action.payload : order,
+        ),
+        ordersError: { isError: false, message: "" },
+      };
+
     default:
       return ordersState;
   }
