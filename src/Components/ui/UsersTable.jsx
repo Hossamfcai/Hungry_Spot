@@ -1,3 +1,4 @@
+import { useMemo, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faEllipsisVertical,
@@ -5,25 +6,50 @@ import {
   faPen,
 } from "@fortawesome/free-solid-svg-icons";
 
-export default function UsersTable({ users = [] }) {
+export default function UsersTable({
+  users = [],
+  onAdd,
+  onView,
+  onEdit,
+}) {
+  const [filter, setFilter] = useState("all");
+
+  const filteredUsers = useMemo(() => {
+    if (filter === "all") {
+      return users;
+    }
+
+    return users.filter(
+      (user) => String(user.role).toLowerCase() === filter,
+    );
+  }, [users, filter]);
+
   return (
     <section className="users-table-section">
-
       <div className="users-table-header">
         <div>
           <h2>Registered Patrons &amp; Staff</h2>
-
           <p>
             Manage user accounts, roles, activity and access permissions.
           </p>
         </div>
 
         <div className="users-table-actions">
-          <button type="button" className="users-table-filter">
-            All Users
-          </button>
+          <select
+            className="users-table-filter"
+            value={filter}
+            onChange={(event) => setFilter(event.target.value)}
+          >
+            <option value="all">All Users</option>
+            <option value="user">Users</option>
+            <option value="admin">Admins</option>
+          </select>
 
-          <button type="button" className="users-add-button">
+          <button
+            type="button"
+            className="users-add-button"
+            onClick={onAdd}
+          >
             + Add User
           </button>
         </div>
@@ -42,96 +68,102 @@ export default function UsersTable({ users = [] }) {
           </thead>
 
           <tbody>
-            {users.map((user) => (
-              <tr key={user.id}>
+            {filteredUsers.length > 0 ? (
+              filteredUsers.map((user) => (
+                <tr key={user.id}>
+                  <td>
+                    <div className="user-cell">
+                      <div
+                        className={`user-avatar ${
+                          user.avatarClass || ""
+                        }`}
+                      >
+                        {user.initials}
+                      </div>
 
-                <td>
-                  <div className="user-cell">
-                    <div
-                      className={`user-avatar ${user.avatarClass || ""}`}
-                    >
-                      {user.initials}
+                      <div className="user-cell-info">
+                        <strong>{user.name}</strong>
+                        <span>{user.email}</span>
+                      </div>
                     </div>
+                  </td>
 
-                    <div className="user-cell-info">
-                      <strong>{user.name}</strong>
+                  <td>
+                    <span
+                      className={`user-role ${
+                        user.roleClass || ""
+                      }`}
+                    >
+                      {user.role}
+                    </span>
+                  </td>
 
-                      <span>{user.email}</span>
+                  <td>
+                    <span
+                      className={`user-status ${
+                        user.statusClass || ""
+                      }`}
+                    >
+                      <span className="user-status-dot"></span>
+                      {user.status}
+                    </span>
+                  </td>
+
+                  <td>
+                    <span className="user-last-activity">
+                      {user.lastActivity}
+                    </span>
+                  </td>
+
+                  <td>
+                    <div className="user-row-actions">
+                      <button
+                        type="button"
+                        aria-label={`View ${user.name}`}
+                        title="View user"
+                        onClick={() => onView?.(user)}
+                      >
+                        <FontAwesomeIcon icon={faEye} />
+                      </button>
+
+                      <button
+                        type="button"
+                        aria-label={`Edit ${user.name}`}
+                        title="Edit user"
+                        onClick={() => onEdit?.(user)}
+                      >
+                        <FontAwesomeIcon icon={faPen} />
+                      </button>
+
+                      <button
+                        type="button"
+                        aria-label={`More actions for ${user.name}`}
+                        title="More actions"
+                        onClick={() => onView?.(user)}
+                      >
+                        <FontAwesomeIcon icon={faEllipsisVertical} />
+                      </button>
                     </div>
-                  </div>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="5" className="users-empty-state">
+                  No users found.
                 </td>
-
-                <td>
-                  <span className={`user-role ${user.roleClass || ""}`}>
-                    {user.role}
-                  </span>
-                </td>
-
-                <td>
-                  <span
-                    className={`user-status ${user.statusClass || ""}`}
-                  >
-                    <span className="user-status-dot"></span>
-                    {user.status}
-                  </span>
-                </td>
-
-                <td>
-                  <span className="user-last-activity">
-                    {user.lastActivity}
-                  </span>
-                </td>
-
-                <td>
-                  <div className="user-row-actions">
-
-                    <button
-                      type="button"
-                      aria-label={`View ${user.name}`}
-                      title="View user"
-                    >
-                      <FontAwesomeIcon icon={faEye} />
-                    </button>
-
-                    <button
-                      type="button"
-                      aria-label={`Edit ${user.name}`}
-                      title="Edit user"
-                    >
-                      <FontAwesomeIcon icon={faPen} />
-                    </button>
-
-                    <button
-                      type="button"
-                      aria-label={`More actions for ${user.name}`}
-                      title="More actions"
-                    >
-                      <FontAwesomeIcon icon={faEllipsisVertical} />
-                    </button>
-
-                  </div>
-                </td>
-
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
       </div>
 
       <div className="users-table-footer">
         <span>
-          Showing <strong>{users.length}</strong> of 1,482 users
+          Showing <strong>{filteredUsers.length}</strong> of{" "}
+          <strong>{users.length}</strong> users
         </span>
-
-        <div className="users-pagination">
-          <button type="button">Previous</button>
-          <button type="button" className="active">1</button>
-          <button type="button">2</button>
-          <button type="button">3</button>
-          <button type="button">Next</button>
-        </div>
       </div>
-
     </section>
   );
 }

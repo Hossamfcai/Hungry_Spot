@@ -1,3 +1,228 @@
+/* ================================
+   Users API states
+================================ */
+
+.users-loading,
+.users-error {
+  padding: 20px 24px;
+  margin-bottom: 24px;
+  border-radius: 14px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.users-loading {
+  background: #fff8ed;
+  color: #9a6416;
+}
+
+.users-error {
+  background: #fff1f0;
+  color: #b42318;
+}
+
+/* ================================
+   User modal
+================================ */
+
+.users-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(20, 16, 12, 0.55);
+}
+
+.users-modal {
+  width: min(520px, 100%);
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.2);
+}
+
+.users-modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 26px 28px 20px;
+  border-bottom: 1px solid #eeeeee;
+}
+
+.users-modal-eyebrow {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #a36a20;
+}
+
+.users-modal-header h2 {
+  margin: 0;
+  font-size: 24px;
+  line-height: 1.2;
+  color: #241b15;
+}
+
+.users-modal-close {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 10px;
+  background: #f7f4f0;
+  color: #5f5349;
+  cursor: pointer;
+}
+
+.users-modal-close:hover {
+  background: #eee9e3;
+}
+
+.users-modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 26px 28px 28px;
+}
+
+.users-modal-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.users-modal-form label > span {
+  font-size: 13px;
+  font-weight: 700;
+  color: #3b3028;
+}
+
+.users-modal-form input,
+.users-modal-form select {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 46px;
+  padding: 0 13px;
+  border: 1px solid #ddd6ce;
+  border-radius: 10px;
+  outline: none;
+  background: #ffffff;
+  color: #2c241e;
+  font-size: 14px;
+}
+
+.users-modal-form input:focus,
+.users-modal-form select:focus {
+  border-color: #c78632;
+  box-shadow: 0 0 0 3px rgba(199, 134, 50, 0.12);
+}
+
+.users-modal-form input:disabled {
+  background: #f7f5f2;
+  color: #756b63;
+}
+
+.users-modal-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.users-modal-details > div {
+  padding: 14px;
+  border-radius: 12px;
+  background: #f8f6f3;
+}
+
+.users-modal-details span {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 11px;
+  color: #84786e;
+}
+
+.users-modal-details strong {
+  font-size: 13px;
+  color: #302720;
+}
+
+.users-modal-error {
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: #fff1f0;
+  color: #b42318;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.users-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.users-modal-footer-right {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.users-modal-secondary,
+.users-modal-primary {
+  min-height: 42px;
+  padding: 0 18px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.users-modal-secondary {
+  border: 1px solid #ddd6ce;
+  background: #ffffff;
+  color: #4d4037;
+}
+
+.users-modal-secondary:hover {
+  background: #f8f5f2;
+}
+
+.users-modal-primary {
+  border: 1px solid #a9681e;
+  background: #a9681e;
+  color: #ffffff;
+}
+
+.users-modal-primary:hover {
+  background: #8f5717;
+}
+
+.users-modal-primary:disabled,
+.users-modal-secondary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Empty table state */
+
+.users-empty-state {
+  padding: 40px 20px !important;
+  text-align: center;
+  color: #83766c;
+}
 /* =========================================================
    USERS DASHBOARD PAGE
 ========================================================= */

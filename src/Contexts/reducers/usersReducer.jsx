@@ -1,7 +1,11 @@
 export const initialUsersData = {
   users: [],
   loadingUsersData: false,
-  usersDataError: { isError: false, message: "" },
+  actionLoading: false,
+  usersDataError: {
+    isError: false,
+    message: "",
+  },
 };
 
 export function usersReducer(usersState, action) {
@@ -10,16 +14,37 @@ export function usersReducer(usersState, action) {
       return {
         ...usersState,
         loadingUsersData: true,
-        usersDataError: { isError: false, message: "" },
+        usersDataError: {
+          isError: false,
+          message: "",
+        },
+      };
+
+    case "SET_ACTION_LOADING":
+      return {
+        ...usersState,
+        actionLoading: true,
+        usersDataError: {
+          isError: false,
+          message: "",
+        },
+      };
+
+    case "SET_ACTION_FINISHED":
+      return {
+        ...usersState,
+        actionLoading: false,
       };
 
     case "SET_ERROR":
       return {
         ...usersState,
         loadingUsersData: false,
+        actionLoading: false,
         usersDataError: {
           isError: true,
-          message: action.payload || "An Error occurred of user services",
+          message:
+            action.payload || "An error occurred in user services.",
         },
       };
 
@@ -28,7 +53,21 @@ export function usersReducer(usersState, action) {
         ...usersState,
         users: [...action.payload],
         loadingUsersData: false,
-        usersDataError: { isError: false, message: "" },
+        usersDataError: {
+          isError: false,
+          message: "",
+        },
+      };
+
+    case "ADD_USER_SUCCESS":
+      return {
+        ...usersState,
+        users: [...usersState.users, action.payload],
+        actionLoading: false,
+        usersDataError: {
+          isError: false,
+          message: "",
+        },
       };
 
     default:
