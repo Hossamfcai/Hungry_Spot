@@ -1,52 +1,182 @@
-import { useEffect } from "react";
+import React from "react";
 import {
-  useMenuDispatch,
-  useMenuState,
-  useOrdersDispatch,
-  useOrdersState,
-  useAuthDispatch,
-  useAuthState,
-  useUsersState,
-  useUsersDispatch,
-} from "../../Contexts/AppContext";
+  BarChart3,
+  CalendarDays,
+  ClipboardList,
+  Clock3,
+  Download,
+  Filter,
+  Package,
+  Star,
+  TrendingUp,
+  Users,
+  UtensilsCrossed,
+} from "lucide-react";
 
-export default function Statistics() {
-  const { auth, loading, error } = useAuthState();
-  const { users, loadingUsersData, usersDataError } = useUsersState();
-  const { getAllUsersData } = useUsersDispatch();
-  const { getUserData } = useAuthDispatch();
-  const { menu, loadingMenu, menuError } = useMenuState();
-  const { getMenuData } = useMenuDispatch();
-  const { orders, loadingOrders, ordersError } = useOrdersState();
-  const { getOrdersData } = useOrdersDispatch();
-  useEffect(() => {
-    getUserData();
-    getMenuData();
-    getOrdersData();
-    getAllUsersData();
-  }, []);
+import AnalyticsStatCard from "../../components/ui/AnalyticsStatCard";
+import RevenueChart from "../../components/ui/RevenueChart";
+import TopActiveCourses from "../../components/ui/TopActiveCourses";
+import AnalyticsSummaryCard from "../../components/ui/AnalyticsSummaryCard";
 
-  // Log state updates on every re-render
-  // console.log("Current auth state in render:", auth);
-  // console.log("Current menu state in render:", menu);
-  // console.log("Current orders state in render:", orders);
-  // console.log("Current users state in render:", users);
+import "./Analytics.css";
 
-  if (loading) return <div>Loading auth data...</div>;
-  if (error.isError) return <div>Error: {error.message}</div>;
-
+const Analytics = () => {
   return (
-    <div>
-      <h2>User Profile</h2>
-      <p>
-        <strong>Name:</strong> {auth.name || "N/A"}
-      </p>
-      <p>
-        <strong>Email:</strong> {auth.email || "N/A"}
-      </p>
-      <p>
-        <strong>Role:</strong> {auth.role || "N/A"}
-      </p>
-    </div>
+    <main className="analytics-page">
+      {/* Breadcrumb */}
+      <div className="analytics-breadcrumb">
+        <span>MAÎTRE D'S & SOMMELIER SANCTUM</span>
+        <span>/</span>
+        <strong>Executive Ledger</strong>
+
+        <div className="analytics-live-status">
+          <span className="live-dot"></span>
+          Fiscal Audit Active
+        </div>
+      </div>
+
+      {/* Header */}
+      <section className="analytics-header">
+        <div className="analytics-header-content">
+          <p className="analytics-eyebrow">HIGH-GASTRONOMY ANALYTICS</p>
+
+          <h1>
+            Analytics & Revenue
+            <br />
+            Performance
+          </h1>
+
+          <p className="analytics-description">
+            Real-time performance ledger for degustation services, salon
+            covers, and vintage allocations.
+          </p>
+        </div>
+
+        <div className="analytics-header-actions">
+          <button className="analytics-date-button">
+            <CalendarDays size={12} />
+            Last 30 Days - Oct 1 - Oct 30
+            <span>⌄</span>
+          </button>
+
+          <button className="analytics-export-button">
+            <Download size={12} />
+            EXPORT PDF REPORT
+          </button>
+        </div>
+      </section>
+
+      {/* Statistics */}
+      <section className="analytics-stats-grid">
+        <AnalyticsStatCard
+          label="TOTAL USERS"
+          value="1,428"
+          subLabel="PATRONS ENROLLED"
+          change="+14.2%"
+          icon={<Users size={13} />}
+          variant="orange"
+        />
+
+        <AnalyticsStatCard
+          label="ACTIVE PRODUCTS"
+          value="38"
+          subLabel="Courses"
+          secondaryText="LIVE REPORTING"
+          change="96.4%"
+          icon={<UtensilsCrossed size={13} />}
+          variant="gold"
+        />
+
+        <AnalyticsStatCard
+          label="TOTAL REVENUE"
+          value="$148,650"
+          subLabel="GROSS DEGUSTATION"
+          change="+8.7%"
+          icon={<TrendingUp size={13} />}
+          variant="orange"
+        />
+
+        <AnalyticsStatCard
+          label="PENDING ORDERS"
+          value="12 Active"
+          subLabel="LIVE SALON FLOOR"
+          change="4 Kitchen"
+          icon={<ClipboardList size={13} />}
+          variant="brown"
+        />
+      </section>
+
+      {/* Main analytics */}
+      <section className="analytics-main-grid">
+        <RevenueChart />
+
+        <TopActiveCourses />
+      </section>
+
+      {/* Bottom summary numbers */}
+      <section className="analytics-summary-grid">
+        <AnalyticsSummaryCard
+          label="DEGUSTATION COVERS"
+          value="522"
+          description="12% up from last period"
+          icon={<Users size={13} />}
+        />
+
+        <AnalyticsSummaryCard
+          label="CELLAR VINTAGE SALES"
+          value="$58,420"
+          description="8.4% above target"
+          icon={<Package size={13} />}
+        />
+
+        <AnalyticsSummaryCard
+          label="SALON TABLE TURN"
+          value="1.84"
+          description="HOURS (avg)"
+          icon={<Clock3 size={13} />}
+        />
+      </section>
+
+      {/* Bottom operational cards */}
+      <section className="analytics-bottom-grid">
+        <div className="analytics-operational-card">
+          <div className="operational-icon">
+            <Clock3 size={14} />
+          </div>
+
+          <div>
+            <p>PEAK DINING WINDOW</p>
+            <strong>7:30 PM - 9:30 PM</strong>
+            <span>72% salon occupancy</span>
+          </div>
+        </div>
+
+        <div className="analytics-operational-card">
+          <div className="operational-icon">
+            <Star size={14} />
+          </div>
+
+          <div>
+            <p>SOMMELIER RATING</p>
+            <strong>68% ALCHEMY</strong>
+            <span>Grand Cru satisfaction</span>
+          </div>
+        </div>
+
+        <div className="analytics-operational-card">
+          <div className="operational-icon">
+            <Star size={14} />
+          </div>
+
+          <div>
+            <p>SERVICE CONSISTENCY</p>
+            <strong>94% Excellent</strong>
+            <span>Zero table incidents</span>
+          </div>
+        </div>
+      </section>
+    </main>
   );
-}
+};
+
+export default Analytics;
