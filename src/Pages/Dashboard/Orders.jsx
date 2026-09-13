@@ -3,9 +3,11 @@ import { useOrdersDispatch, useOrdersState } from "../../Contexts/AppContext";
 
 export default function Orders() {
   const { orders, loadingOrders, ordersError } = useOrdersState();
-  const { getOrdersData } = useOrdersDispatch();
+  const { getOrdersData, updateOrderStatus } = useOrdersDispatch();
 
   const [activeFilter, setActiveFilter] = useState("ALL");
+
+  const statusFlow = ["pending", "preparing", "completed", "cancelled"];
 
   useEffect(() => {
     getOrdersData();
@@ -40,6 +42,18 @@ export default function Orders() {
 
   const handleFilterChange = (filter) => {
     setActiveFilter(filter);
+  };
+
+  const handleStatusChange = (order) => {
+    const currentStatus = order.status?.toLowerCase();
+
+    const currentIndex = statusFlow.indexOf(currentStatus);
+
+    const nextIndex = (currentIndex + 1) % statusFlow.length;
+
+    const nextStatus = statusFlow[nextIndex];
+
+    updateOrderStatus(order.id, nextStatus);
   };
 
   return (
@@ -305,8 +319,11 @@ export default function Orders() {
 
                   {/* Status */}
                   <div>
-                    <span
-                      className={`text-[7px] font-bold tracking-[0.7px] ${
+                    <button
+                      type="button"
+                      title="Tab to change state"
+                      onClick={() => handleStatusChange(order)}
+                      className={`cursor-pointer text-[7px] font-bold tracking-[0.7px] transition hover:opacity-70 ${
                         status === "PENDING"
                           ? "text-[#e98500]"
                           : status === "PREPARING"
@@ -319,7 +336,7 @@ export default function Orders() {
                       }`}
                     >
                       ● {status}
-                    </span>
+                    </button>
                   </div>
                 </div>
               );
