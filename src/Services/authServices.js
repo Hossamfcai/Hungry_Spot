@@ -16,6 +16,23 @@ export async function loginService(body) {
   return user;
 }
 
+export async function signUpService(body) {
+  const response = await axios.post(
+    `http://localhost:5000/api/auth/register`,
+    body,
+  );
+  if (response.status !== 200 && response.status === 409) {
+    throw new Error(`Failed to sign ${response.status}`);
+  }
+
+  const { token, user } = response.data.data;
+
+  localStorage.setItem("token", token);
+  localStorage.setItem("role", user.role);
+
+  return user;
+}
+
 export async function getUserService() {
   const token = localStorage.getItem("token");
   if (!token) return;

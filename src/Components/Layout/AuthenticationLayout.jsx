@@ -1,8 +1,9 @@
-import { Outlet } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
 import Footer from "../ui/Footer";
 import Navbar from "../ui/Navbar";
 import { motion } from "framer-motion";
 export default function AuthenticationLayout() {
+  const location = useLocation();
   return (
     <div className="min-h-screen flex flex-col gap-10 justify-center">
       <Navbar />
@@ -22,33 +23,68 @@ export default function AuthenticationLayout() {
             <div className="absolute top-0 inset-x-8 h-px bg-linear-to-r from-transparent via-primary/30 to-transparent" />
 
             {/* Header Section */}
-            <div className="text-center mb-6">
-              <span className="text-[11px] font-semibold uppercase tracking-[0.25em] text-primary block mb-1">
-                Exclusive Membership
-              </span>
-              <h1 className="text-2xl md:text-3xl font-serif text-on-surface tracking-tight mb-2">
-                Patron Access Portal
-              </h1>
-              <p className="text-sm text-on-surface-variant max-w-sm mx-auto leading-relaxed">
-                Sign in with your atelier account or request access to private
-                seating.
-              </p>
-            </div>
+            {location.pathname.includes("/Authentication/Login") ? (
+              <motion.div
+                initial={{ opacity: 0 }} // Start invisible
+                animate={{ opacity: 1 }} // Fade1 second to fully visible
+                transition={{ duration: 1 }}
+                className="text-center mb-6"
+              >
+                <span className="text-[11px] font-semibold uppercase tracking-[0.25em] text-primary block mb-1">
+                  Exclusive Membership
+                </span>
+                <h1 className="text-2xl md:text-3xl font-serif text-on-surface tracking-tight mb-2">
+                  Patron Access Portal
+                </h1>
+                <p className="text-sm text-on-surface-variant max-w-sm mx-auto leading-relaxed">
+                  Sign in with your atelier account or request access to private
+                  seating.
+                </p>
+              </motion.div>
+            ) : (
+              <motion.div
+                initial={{ opacity: 0 }} // Start invisible
+                animate={{ opacity: 1 }} // Fade1 second to fully visible
+                transition={{ duration: 1 }}
+                className="text-center mb-6"
+              >
+                <span className="text-[11px] font-semibold uppercase tracking-[0.25em] text-primary block mb-1">
+                  Join The Community
+                </span>
+                <h1 className="text-2xl md:text-3xl font-serif text-on-surface tracking-tight mb-2">
+                  Create Your Account
+                </h1>
+                <p className="text-sm text-on-surface-variant max-w-sm mx-auto leading-relaxed">
+                  Register today to get full access to our menu, reservation
+                  features, and member perks.
+                </p>
+              </motion.div>
+            )}
 
             {/* Tab Toggle Controls */}
             <div className="bg-surface-container-lowest p-1 rounded-lg flex items-center mb-6 relative border border-outline-variant/40">
-              <button
+              <Link
+                to={"/Authentication/Login"}
                 type="button"
-                className="flex-1 py-space-xs font-label-caps text-label-caps uppercase tracking-wider text-center transition-all duration-300 rounded bg-primary-container text-on-primary-container shadow-md"
+                className={
+                  location.pathname.includes("/Authentication/Login")
+                    ? "flex-1 py-space-xs font-label-caps text-label-caps uppercase tracking-wider text-center transition-all duration-300 rounded bg-primary-container text-on-primary-container shadow-md"
+                    : "flex-1 py-space-xs font-label-caps text-label-caps uppercase tracking-wider text-center transition-all duration-300 rounded text-on-surface-variant hover:text-on-surface"
+                }
               >
                 Sign In
-              </button>
-              <button
+              </Link>
+              <Link
+                to={"/Authentication/Sign_Up"}
                 type="button"
-                className="flex-1 py-space-xs font-label-caps text-label-caps uppercase tracking-wider text-center transition-all duration-300 rounded text-on-surface-variant hover:text-on-surface"
+                className={
+                  location.pathname.includes("/Authentication/Sign_Up")
+                    ? "flex-1 py-space-xs font-label-caps text-label-caps uppercase tracking-wider text-center transition-all duration-300 rounded bg-primary-container text-on-primary-container shadow-md"
+                    : "flex-1 py-space-xs font-label-caps text-label-caps uppercase tracking-wider text-center transition-all duration-300 rounded text-on-surface-variant hover:text-on-surface"
+                }
               >
                 Create Account
-              </button>
+              </Link>
             </div>
 
             {/* Sign In Form */}

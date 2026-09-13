@@ -2,6 +2,7 @@ import { Mail, Lock, Eye, AlertCircle } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { motion } from "framer-motion";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -83,7 +84,12 @@ export default function Login() {
   };
 
   return (
-    <div>
+    <motion.div
+      initial={{ opacity: 0 }} // Start invisible
+      animate={{ opacity: 1 }} // Fade1 second to fully visible
+      transition={{ duration: 1 }}
+    >
+      // Animation lasts
       {/* Sign In Form */}
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -185,6 +191,6 @@ export default function Login() {
           )}
         </button>
       </form>
-    </div>
+    </motion.div>
   );
 }
