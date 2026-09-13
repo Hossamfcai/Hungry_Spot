@@ -1,5 +1,3 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
 export default function UserStatCard({
   label,
   value,
@@ -12,9 +10,7 @@ export default function UserStatCard({
       <div className="user-stat-top">
         <span className="user-stat-label">{label}</span>
 
-        <span className={`user-stat-icon ${iconClass}`}>
-          <FontAwesomeIcon icon={icon} />
-        </span>
+        <span className={`user-stat-icon ${iconClass}`}>{icon}</span>
       </div>
 
       <div className="user-stat-bottom">

@@ -30,7 +30,7 @@ export default function Statistics() {
   // console.log("Current auth state in render:", auth);
   // console.log("Current menu state in render:", menu);
   // console.log("Current orders state in render:", orders);
-  // console.log("Current users state in render:", users);
+  console.log("Current users state in render:", usersDataError);
 
   if (loading) return <div>Loading auth data...</div>;
   if (error.isError) return <div>Error: {error.message}</div>;

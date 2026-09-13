@@ -1,17 +1,8 @@
 import { useMemo, useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faEllipsisVertical,
-  faEye,
-  faPen,
-} from "@fortawesome/free-solid-svg-icons";
 
-export default function UsersTable({
-  users = [],
-  onAdd,
-  onView,
-  onEdit,
-}) {
+import { MoreVertical, Eye, Pencil } from "lucide-react";
+
+export default function UsersTable({ users = [], onAdd, onView, onEdit }) {
   const [filter, setFilter] = useState("all");
 
   const filteredUsers = useMemo(() => {
@@ -19,9 +10,7 @@ export default function UsersTable({
       return users;
     }
 
-    return users.filter(
-      (user) => String(user.role).toLowerCase() === filter,
-    );
+    return users.filter((user) => String(user.role).toLowerCase() === filter);
   }, [users, filter]);
 
   return (
@@ -29,9 +18,7 @@ export default function UsersTable({
       <div className="users-table-header">
         <div>
           <h2>Registered Patrons &amp; Staff</h2>
-          <p>
-            Manage user accounts, roles, activity and access permissions.
-          </p>
+          <p>Manage user accounts, roles, activity and access permissions.</p>
         </div>
 
         <div className="users-table-actions">
@@ -45,11 +32,7 @@ export default function UsersTable({
             <option value="admin">Admins</option>
           </select>
 
-          <button
-            type="button"
-            className="users-add-button"
-            onClick={onAdd}
-          >
+          <button type="button" className="users-add-button" onClick={onAdd}>
             + Add User
           </button>
         </div>
@@ -73,11 +56,7 @@ export default function UsersTable({
                 <tr key={user.id}>
                   <td>
                     <div className="user-cell">
-                      <div
-                        className={`user-avatar ${
-                          user.avatarClass || ""
-                        }`}
-                      >
+                      <div className={`user-avatar ${user.avatarClass || ""}`}>
                         {user.initials}
                       </div>
 
@@ -89,21 +68,13 @@ export default function UsersTable({
                   </td>
 
                   <td>
-                    <span
-                      className={`user-role ${
-                        user.roleClass || ""
-                      }`}
-                    >
+                    <span className={`user-role ${user.roleClass || ""}`}>
                       {user.role}
                     </span>
                   </td>
 
                   <td>
-                    <span
-                      className={`user-status ${
-                        user.statusClass || ""
-                      }`}
-                    >
+                    <span className={`user-status ${user.statusClass || ""}`}>
                       <span className="user-status-dot"></span>
                       {user.status}
                     </span>
@@ -123,7 +94,7 @@ export default function UsersTable({
                         title="View user"
                         onClick={() => onView?.(user)}
                       >
-                        <FontAwesomeIcon icon={faEye} />
+                        <Eye />
                       </button>
 
                       <button
@@ -132,7 +103,7 @@ export default function UsersTable({
                         title="Edit user"
                         onClick={() => onEdit?.(user)}
                       >
-                        <FontAwesomeIcon icon={faPen} />
+                        <Pencil />
                       </button>
 
                       <button
@@ -141,7 +112,7 @@ export default function UsersTable({
                         title="More actions"
                         onClick={() => onView?.(user)}
                       >
-                        <FontAwesomeIcon icon={faEllipsisVertical} />
+                        <MoreVertical />
                       </button>
                     </div>
                   </td>

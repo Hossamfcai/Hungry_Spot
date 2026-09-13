@@ -89,7 +89,6 @@ export default function Login() {
       animate={{ opacity: 1 }} // Fade1 second to fully visible
       transition={{ duration: 1 }}
     >
-      // Animation lasts
       {/* Sign In Form */}
       <form
         onSubmit={handleSubmit(onSubmit)}

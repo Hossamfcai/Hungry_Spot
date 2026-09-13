@@ -1,10 +1,4 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faArrowTrendUp,
-  faChartPie,
-  faCircleCheck,
-  faUserGroup,
-} from "@fortawesome/free-solid-svg-icons";
+import { TrendingUp, PieChart, CheckCircle2, Users } from "lucide-react";
 
 export default function UserActivityCard({
   title,
@@ -14,7 +8,6 @@ export default function UserActivityCard({
   if (type === "distribution") {
     return (
       <article className="user-activity-card">
-
         <div className="activity-card-heading">
           <div>
             <p className="activity-eyebrow">User quality assurance</p>
@@ -25,15 +18,14 @@ export default function UserActivityCard({
           </div>
 
           <span className="activity-heading-icon">
-            <FontAwesomeIcon icon={faChartPie} />
+            <PieChart />
           </span>
         </div>
 
         <div className="distribution-content">
-
           <div className="distribution-item">
             <span className="distribution-icon">
-              <FontAwesomeIcon icon={faUserGroup} />
+              <Users />
             </span>
 
             <div>
@@ -46,7 +38,7 @@ export default function UserActivityCard({
 
           <div className="distribution-item">
             <span className="distribution-icon">
-              <FontAwesomeIcon icon={faCircleCheck} />
+              <CheckCircle2 />
             </span>
 
             <div>
@@ -59,7 +51,7 @@ export default function UserActivityCard({
 
           <div className="distribution-item">
             <span className="distribution-icon">
-              <FontAwesomeIcon icon={faArrowTrendUp} />
+              <TrendingUp />
             </span>
 
             <div>
@@ -69,16 +61,13 @@ export default function UserActivityCard({
 
             <b>2%</b>
           </div>
-
         </div>
-
       </article>
     );
   }
 
   return (
     <article className="user-activity-card">
-
       <div className="activity-card-heading">
         <div>
           <p className="activity-eyebrow">Engagement trends</p>
@@ -89,12 +78,11 @@ export default function UserActivityCard({
         </div>
 
         <span className="activity-heading-icon">
-          <FontAwesomeIcon icon={faArrowTrendUp} />
+          <TrendingUp />
         </span>
       </div>
 
       <div className="activity-chart">
-
         <div className="chart-y-axis">
           <span>100</span>
           <span>75</span>
@@ -104,7 +92,6 @@ export default function UserActivityCard({
         </div>
 
         <div className="chart-area">
-
           <div className="chart-grid">
             <span></span>
             <span></span>
@@ -142,11 +129,8 @@ export default function UserActivityCard({
             <span>Sat</span>
             <span>Sun</span>
           </div>
-
         </div>
-
       </div>
-
     </article>
   );
 }

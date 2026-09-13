@@ -68,7 +68,7 @@ export default function Menu() {
   useEffect(() => {
     getMenuData();
   }, [getMenuData]);
-
+  console.log(menu);
   // =====================================================
   // CATEGORIES
   // =====================================================
