@@ -17,7 +17,7 @@ import UsersTable from "../../components/ui/UsersTable";
 
 import { useUsersDispatch, useUsersState } from "../../Contexts/AppContext";
 
-import "./Users.css";
+import "../../styles/Users.css";
 import UsersTableSkeleton from "../../Components/ui/UserTableSkeleton";
 
 function formatDate(date) {

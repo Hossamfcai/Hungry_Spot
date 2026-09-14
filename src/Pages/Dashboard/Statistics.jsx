@@ -18,7 +18,7 @@ import RevenueChart from "../../components/ui/RevenueChart";
 import TopActiveCourses from "../../components/ui/TopActiveCourses";
 import AnalyticsSummaryCard from "../../components/ui/AnalyticsSummaryCard";
 
-import "./Analytics.css";
+import "../../styles/Analytics.css";
 
 const Analytics = () => {
   return (
@@ -47,8 +47,8 @@ const Analytics = () => {
           </h1>
 
           <p className="analytics-description">
-            Real-time performance ledger for degustation services, salon
-            covers, and vintage allocations.
+            Real-time performance ledger for degustation services, salon covers,
+            and vintage allocations.
           </p>
         </div>
 

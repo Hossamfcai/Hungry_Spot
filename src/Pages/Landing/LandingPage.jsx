@@ -9,7 +9,7 @@ import Stat from "../../Components/ui/Stat";
 import { useNavigate } from "react-router-dom";
 import HeroPhoto from "../../assets/images/HeroPhoto.png";
 
-import "./LandingPage.css";
+import "../../styles/LandingPage.css";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useMenuDispatch, useMenuState } from "../../Contexts/AppContext";

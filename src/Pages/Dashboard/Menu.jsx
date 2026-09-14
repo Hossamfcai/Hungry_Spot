@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { useMenuDispatch, useMenuState } from "../../Contexts/AppContext";
-import "./Menu.css";
+import "../../styles/Menu.css";
 
 export default function Menu() {
   // =====================================================

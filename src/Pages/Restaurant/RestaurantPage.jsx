@@ -232,7 +232,7 @@ export default function ResturantPage() {
                         updateOrderList={updateOrder}
                       />
                     ))}
-                {menuError && (
+                {menuError.isError && (
                   <div className="col-span-1 sm:col-span-2 lg:col-span-3">
                     <ErrorState />
                   </div>

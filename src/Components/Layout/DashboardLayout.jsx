@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Menu } from "lucide-react";
 
 import Sidebar from "../ui/Sidebar.jsx";
-import "./DashboardLayout.css";
+import "../../styles/DashboardLayout.css";
 
 export default function DashboardLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
