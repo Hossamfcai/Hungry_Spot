@@ -1,9 +1,9 @@
 import axios from "axios";
 
-const MENU_URL = "http://localhost:5000/api/menu";
+const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
 export async function getMenuService() {
-  const response = await axios.get(MENU_URL);
+  const response = await axios.get(`${apiUrl}/menu`);
 
   if (response.status !== 200) {
     throw new Error(`Failed to fetch menu (${response.status})`);
@@ -15,7 +15,7 @@ export async function getMenuService() {
 export async function addMenuService(productData) {
   const token = localStorage.getItem("token");
 
-  const response = await axios.post(MENU_URL, productData, {
+  const response = await axios.post(`${apiUrl}/menu`, productData, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -29,9 +29,10 @@ export async function addMenuService(productData) {
 }
 
 export async function updateMenuService(id, productData) {
+  console.log(apiUrl);
   const token = localStorage.getItem("token");
 
-  const response = await axios.put(`${MENU_URL}/${id}`, productData, {
+  const response = await axios.put(`${apiUrl}/menu/${id}`, productData, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -48,7 +49,7 @@ export async function updateMenuAvailabilityService(id, available) {
   const token = localStorage.getItem("token");
 
   const response = await axios.put(
-    `${MENU_URL}/${id}`,
+    `${apiUrl}/menu/${id}`,
     {
       available,
     },
@@ -70,7 +71,7 @@ export async function searchMenuService(search, category) {
   const token = localStorage.getItem("token");
   if (!token) return;
   const response = await axios.get(
-    `${MENU_URL}?search=${search}&category=${category}`,
+    `${apiUrl}/menu?search=${search}&category=${category}`,
   );
 
   if (response.status !== 200) {
@@ -83,7 +84,7 @@ export async function searchMenuService(search, category) {
 export async function deleteMenuService(id) {
   const token = localStorage.getItem("token");
 
-  const response = await axios.delete(`${MENU_URL}/${id}`, {
+  const response = await axios.delete(`${apiUrl}/menu/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

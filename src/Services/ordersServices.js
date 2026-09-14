@@ -1,5 +1,5 @@
 import axios from "axios";
-
+const apiUrl = import.meta.env.VITE_API_BASE_URL;
 export async function getOrdersService() {
   const token = localStorage.getItem("token");
   if (!token) return;
@@ -17,7 +17,7 @@ export async function updateOrderStatusService(orderId, status) {
   if (!token) return;
 
   const response = await axios.patch(
-    `http://localhost:5000/api/orders/${orderId}/status`,
+    `${apiUrl}/orders/${orderId}/status`,
     { status },
     {
       headers: {
@@ -40,7 +40,7 @@ export async function addOrderServices(body) {
   }
 
   const response = await axios.post(
-    "http://localhost:5000/api/orders",
+    `${apiUrl}/orders`,
     Array.isArray(body) ? { items: body } : body,
     {
       headers: {
@@ -58,7 +58,7 @@ export async function addOrderServices(body) {
 export async function getUserOrderService() {
   const token = localStorage.getItem("token");
   if (!token) return;
-  const response = await axios.get("http://localhost:5000/api/orders/my", {
+  const response = await axios.get(`${apiUrl}/orders/my`, {
     headers: { Authorization: `Bearer ${token}` },
   });
   if (response.status !== 200)
