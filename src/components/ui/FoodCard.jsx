@@ -1,5 +1,6 @@
 import { ArrowUpRight, Plus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 import Button from "./Button";
 export default function FoodCard({ dish, updateOrderList }) {
   const navigate = useNavigate();
@@ -8,13 +9,19 @@ export default function FoodCard({ dish, updateOrderList }) {
     updateOrderList("plus", dish);
   }
   return (
-    <article className="group overflow-hidden rounded-md border border-outline-variant/35 bg-surface-container-low transition-all duration-300 hover:-translate-y-1 hover:border-primary/40">
+    <motion.article
+      whileHover={{ y: -6 }}
+      transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
+      className="group overflow-hidden rounded-md border border-outline-variant/35 bg-surface-container-low transition-all duration-300 hover:-translate-y-1 hover:border-primary/40"
+    >
       {/* IMAGE */}
       <div className="relative aspect-[4/3] overflow-hidden">
-        <img
+        <motion.img
           src={dish.image}
           alt={dish.name}
           loading="lazy"
+          whileHover={{ scale: 1.06 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
           className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
         />
 
@@ -65,6 +72,6 @@ export default function FoodCard({ dish, updateOrderList }) {
           </Button>
         )}
       </div>
-    </article>
+    </motion.article>
   );
 }

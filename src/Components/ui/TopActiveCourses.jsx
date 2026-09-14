@@ -1,34 +1,6 @@
-import React from "react";
 import { SlidersHorizontal } from "lucide-react";
 import { useOrdersState } from "../../Contexts/AppContext";
 import { getTopProductsByRevenue } from "../../utils/topProducts";
-
-const courses = [
-  {
-    number: "01",
-    name: "Grilled Chilean Seabass",
-    price: "$36,400",
-    description: "Saffron reduction & gilded 24ct truffle.",
-  },
-  {
-    number: "02",
-    name: "Miyazaki Wagyu A5 Striploin",
-    price: "$28,800",
-    description: "Binchotan ash with a wildwood jus.",
-  },
-  {
-    number: "03",
-    name: "Nori Black Truffle Tortellini",
-    price: "$19,800",
-    description: "Aged parmesan velouté.",
-  },
-  {
-    number: "04",
-    name: "Citrus Blossom & Honey Domaine",
-    price: "$11,400",
-    description: "Vintage citrus & candied violet.",
-  },
-];
 
 const TopActiveCourses = () => {
   const { orders } = useOrdersState();

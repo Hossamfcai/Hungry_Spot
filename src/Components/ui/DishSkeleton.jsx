@@ -1,6 +1,41 @@
+import { motion } from "framer-motion";
 export function DishCardSkeleton() {
+  const skeletonContainerVariants = {
+    hidden: { opacity: 0.6 },
+    visible: {
+      opacity: 1,
+      transition: {
+        repeat: Infinity,
+        repeatType: "reverse",
+        duration: 1.2,
+        ease: "easeInOut",
+      },
+    },
+  };
+  const shimmerVariants = {
+    initial: { x: "-100%" },
+    animate: {
+      x: "100%",
+      transition: {
+        repeat: Infinity,
+        duration: 1.5,
+        ease: "linear",
+      },
+    },
+  };
   return (
-    <article className="overflow-hidden rounded-md border border-outline-variant/35 bg-surface-container-low animate-pulse">
+    <motion.article
+      variants={skeletonContainerVariants}
+      initial="hidden"
+      animate="visible"
+      className="overflow-hidden rounded-md border border-outline-variant/35 bg-surface-container-low animate-pulse"
+    >
+      <motion.div
+        variants={shimmerVariants}
+        initial="initial"
+        animate="animate"
+        className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-r from-transparent via-white/10 to-transparent"
+      />
       {/* IMAGE PLACEHOLDER */}
       <div className="relative aspect-[4/3] w-full bg-surface-container-high">
         {/* Category Badge Placeholder */}
@@ -27,6 +62,6 @@ export function DishCardSkeleton() {
         {/* Action Button Placeholder */}
         <div className="mt-5 h-3.5 w-28 rounded bg-surface-container-high" />
       </div>
-    </article>
+    </motion.article>
   );
 }

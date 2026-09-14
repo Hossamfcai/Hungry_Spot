@@ -7,6 +7,7 @@ import {
   SlidersHorizontal,
   X,
   WandSparkles,
+  Utensils,
 } from "lucide-react";
 import {
   useMenuState,
@@ -111,10 +112,23 @@ function Sidebar({ isOpen, onClose }) {
           })}
         </nav>
         <div className="sidebar-bottom">
-          <button className="logout-btn" onClick={handleLogout}>
-            <LogOut size={20} />
-            <span>Logout</span>
-          </button>
+          <div className="">
+            <button
+              className="logout-btn"
+              onClick={() => {
+                navigate("/Restaurant");
+              }}
+            >
+              <Utensils size={20} />
+              <span>Restaurat</span>
+            </button>
+          </div>
+          <div className="">
+            <button className="logout-btn" onClick={handleLogout}>
+              <LogOut size={20} />
+              <span>Logout</span>
+            </button>
+          </div>
         </div>
       </aside>
     </>

@@ -2,7 +2,7 @@ import { Star, Search, UtensilsCrossed, ChefHat } from "lucide-react";
 import Navbar from "../../Components/ui/Navbar";
 import Footer from "../../Components/ui/Footer";
 import FoodCard from "../../Components/ui/FoodCard";
-
+import { motion, AnimatePresence } from "framer-motion";
 import {
   useAuthDispatch,
   useMenuDispatch,
@@ -32,7 +32,6 @@ export default function ResturantPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const hasOrders = Boolean(orderList.length || orders.length);
-
   const categories = ["All", ...new Set(menu.map((item) => item.category))];
 
   function updateOrder(calc, dish) {
@@ -91,7 +90,12 @@ export default function ResturantPage() {
             >
               <div className="absolute left-1/2 top-0 h-125 w-125 -translate-x-1/2 rounded-full bg-primary/8 blur-[120px]" />
 
-              <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-8 pt-24 pb-12 sm:pt-32 sm:pb-16 md:pt-44 md:pb-24 flex flex-col gap-4 sm:gap-6 md:gap-space-lg">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+                className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-8 pt-24 pb-12 sm:pt-32 sm:pb-16 md:pt-44 md:pb-24 flex flex-col gap-4 sm:gap-6 md:gap-space-lg"
+              >
                 {/* Michelin Star Badge */}
                 <div className="inline-flex items-center gap-2 self-start px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-surface-container-high/90 text-primary shadow-xl backdrop-blur-md max-w-full">
                   <Star className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-secondary fill-secondary shrink-0" />
@@ -115,7 +119,7 @@ export default function ResturantPage() {
                     harvests.
                   </p>
                 </div>
-              </div>
+              </motion.div>
             </section>
 
             {/* Sticky Filters & Search Header */}
@@ -142,7 +146,8 @@ export default function ResturantPage() {
                   </div>
 
                   <div className="flex items-center gap-2 sm:gap-space-sm self-end sm:self-auto w-full sm:w-auto">
-                    <button
+                    <motion.button
+                      whileTap={{ scale: 0.96 }}
                       disabled={!hasOrders}
                       onClick={() => setIsDrawerOpen(true)}
                       className={
@@ -162,13 +167,16 @@ export default function ResturantPage() {
                       >
                         Cart & Receipts
                       </span>
-                      <span
+                      <motion.span
+                        key={orderList.length}
+                        initial={{ scale: 0.6 }}
+                        animate={{ scale: 1 }}
                         className={`px-2 py-0.5 rounded-full ${!hasOrders ? "bg-primary text-on-primary font-bold" : "bg-surface text-on-surface font-extrabold"} font-label-caps text-[10px] `}
                         id="tray-count-badge"
                       >
                         {orderList.length}
-                      </span>
-                    </button>
+                      </motion.span>
+                    </motion.button>
                   </div>
                 </div>
 
@@ -179,8 +187,9 @@ export default function ResturantPage() {
                 >
                   {categories.map((category, i) => {
                     return (
-                      <button
+                      <motion.button
                         key={i}
+                        whileTap={{ scale: 0.95 }}
                         className={
                           category.toLowerCase() == categoryState
                             ? "category-btn active-pill px-3 py-1.5 sm:px-4 sm:py-2 rounded font-label-caps text-[11px] sm:text-label-caps uppercase whitespace-nowrap bg-primary-container text-on-primary shadow-sm transition-all shrink-0 cursor-pointer"
@@ -195,7 +204,7 @@ export default function ResturantPage() {
                         type="button"
                       >
                         {category}
-                      </button>
+                      </motion.button>
                     );
                   })}
                 </div>
@@ -217,28 +226,29 @@ export default function ResturantPage() {
 
             {/* Menu Items Responsive Grid */}
             <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-4 sm:py-6 md:py-space-lg">
-              <div
-                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-space-lg"
-                id="menu"
-              >
-                {loadingMenu
-                  ? Array.from({ length: 6 }).map(() => {
-                      return <DishCardSkeleton />;
-                    })
-                  : searchInMenu.map((dish) => (
-                      <FoodCard
-                        key={dish.id}
-                        dish={dish}
-                        updateOrderList={updateOrder}
-                      />
-                    ))}
-                {menuError.isError && (
-                  <div className="col-span-1 sm:col-span-2 lg:col-span-3">
-                    <ErrorState />
-                  </div>
-                )}
-              </div>
-
+              <AnimatePresence mode="wait">
+                <div
+                  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-space-lg"
+                  id="menu"
+                >
+                  {loadingMenu
+                    ? Array.from({ length: 6 }).map(() => {
+                        return <DishCardSkeleton />;
+                      })
+                    : searchInMenu.map((dish) => (
+                        <FoodCard
+                          key={dish.id}
+                          dish={dish}
+                          updateOrderList={updateOrder}
+                        />
+                      ))}
+                  {menuError.isError && (
+                    <div className="col-span-1 sm:col-span-2 lg:col-span-3">
+                      <ErrorState />
+                    </div>
+                  )}
+                </div>
+              </AnimatePresence>
               {/* Empty State Container */}
               <div
                 className="hidden w-full py-8 sm:py-12 md:py-space-xl text-center flex flex-col items-center justify-center gap-3 sm:gap-4 md:gap-space-md bg-surface-container-low rounded p-6 sm:p-8 md:p-space-xl my-4 sm:my-6 md:my-space-lg"
