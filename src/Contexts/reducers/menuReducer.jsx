@@ -20,6 +20,14 @@ export const initialMenu = {
   // Edit loading
   updatingMenu: false,
 
+  // Delete loading
+  deletingMenu: false,
+
+  deleteMenuError: {
+    isError: false,
+    message: "",
+  },
+
   // Availability loading
   updatingAvailability: false,
 
@@ -246,6 +254,56 @@ export function menuReducer(menuState, action) {
         availabilityError: {
           isError: true,
           message: action.payload || "Failed to update availability",
+        },
+      };
+
+    // =====================================================
+    // DELETE MENU LOADING
+    // =====================================================
+
+    case "DELETE_MENU_LOADING":
+      return {
+        ...menuState,
+
+        deletingMenu: true,
+
+        deleteMenuError: {
+          isError: false,
+          message: "",
+        },
+      };
+
+    // =====================================================
+    // DELETE MENU SUCCESS
+    // =====================================================
+
+    case "DELETE_MENU_SUCCESS":
+      return {
+        ...menuState,
+
+        menu: menuState.menu.filter((item) => item.id !== action.payload),
+
+        deletingMenu: false,
+
+        deleteMenuError: {
+          isError: false,
+          message: "",
+        },
+      };
+
+    // =====================================================
+    // DELETE MENU ERROR
+    // =====================================================
+
+    case "DELETE_MENU_ERROR":
+      return {
+        ...menuState,
+
+        deletingMenu: false,
+
+        deleteMenuError: {
+          isError: true,
+          message: action.payload || "Failed to delete menu item",
         },
       };
 

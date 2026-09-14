@@ -6,6 +6,7 @@ import {
   updateMenuService,
   updateMenuAvailabilityService,
   searchMenuService,
+  deleteMenuService,
 } from "../Services/menuServices";
 
 export function useMenuActions(dispatch) {
@@ -122,6 +123,46 @@ export function useMenuActions(dispatch) {
   );
 
   // =========================
+  // Delete Product
+  // =========================
+  const deleteMenuData = useCallback(
+    async (id) => {
+      dispatch({
+        type: "DELETE_MENU_LOADING",
+      });
+
+      try {
+        await deleteMenuService(id);
+
+        dispatch({
+          type: "DELETE_MENU_SUCCESS",
+          payload: id,
+        });
+
+        return {
+          success: true,
+        };
+      } catch (err) {
+        const message =
+          err.response?.data?.message ||
+          err.message ||
+          "Failed to delete product";
+
+        dispatch({
+          type: "DELETE_MENU_ERROR",
+          payload: message,
+        });
+
+        return {
+          success: false,
+          message,
+        };
+      }
+    },
+    [dispatch],
+  );
+
+  // =========================
   // Toggle Active / Inactive
   // =========================
   const toggleMenuAvailability = useCallback(
@@ -192,5 +233,6 @@ export function useMenuActions(dispatch) {
     updateMenuData,
     toggleMenuAvailability,
     getSearchMenuData,
+    deleteMenuData,
   };
 }
