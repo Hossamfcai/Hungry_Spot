@@ -1,9 +1,4 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faBell,
-  faChevronDown,
-  faMagnifyingGlass,
-} from "@fortawesome/free-solid-svg-icons";
+import { Bell, ChevronDown, Search } from "lucide-react";
 
 export default function DashboardHeader({
   eyebrow = "Operations Dashboard",
@@ -29,7 +24,7 @@ export default function DashboardHeader({
             className="users-icon-button"
             aria-label="Search"
           >
-            <FontAwesomeIcon icon={faMagnifyingGlass} />
+            <Search />
           </button>
 
           <button
@@ -37,7 +32,7 @@ export default function DashboardHeader({
             className="users-icon-button"
             aria-label="Notifications"
           >
-            <FontAwesomeIcon icon={faBell} />
+            <Bell />
           </button>
 
           <button type="button" className="users-profile-button">
@@ -47,11 +42,7 @@ export default function DashboardHeader({
               <strong>Admin Manager</strong>
               <span>Administrator</span>
             </span>
-
-            <FontAwesomeIcon
-              icon={faChevronDown}
-              className="users-profile-arrow"
-            />
+            <ChevronDown className="users-profile-arrow" />
           </button>
         </div>
       </div>

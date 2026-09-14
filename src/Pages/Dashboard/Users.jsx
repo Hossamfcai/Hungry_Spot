@@ -1,24 +1,22 @@
 import { useEffect, useMemo, useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import {
-  faArrowTrendUp,
-  faCircleDollarToSlot,
-  faUserCheck,
-  faUsers,
-  faXmark,
-} from "@fortawesome/free-solid-svg-icons";
+  TrendingUp,
+  PiggyBank, // or CircleDollarSign
+  UserCheck,
+  UsersRound,
+  X,
+} from "lucide-react";
 
 import DashboardHeader from "../../components/ui/DashboardHeader";
 import UserActivityCard from "../../components/ui/UserActivityCard";
 import UserStatCard from "../../components/ui/UserStatCard";
 import UsersTable from "../../components/ui/UsersTable";
 
-import {
-  useUsersDispatch,
-  useUsersState,
-} from "../../Contexts/AppContext";
+import { useUsersDispatch, useUsersState } from "../../Contexts/AppContext";
 
 import "./Users.css";
+import UsersTableSkeleton from "../../Components/ui/UserTableSkeleton";
 
 function formatDate(date) {
   if (!date) return "—";
@@ -59,22 +57,12 @@ function getAvatarClass(id) {
 
   const number = value
     .split("")
-    .reduce(
-      (sum, character) => sum + character.charCodeAt(0),
-      0,
-    );
+    .reduce((sum, character) => sum + character.charCodeAt(0), 0);
 
   return classes[number % classes.length];
 }
 
-function UserModal({
-  mode,
-  user,
-  loading,
-  error,
-  onClose,
-  onSubmit,
-}) {
+function UserModal({ mode, user, loading, error, onClose, onSubmit }) {
   const isView = mode === "view";
 
   const [name, setName] = useState(user?.name || "");
@@ -129,14 +117,11 @@ function UserModal({
             onClick={onClose}
             aria-label="Close"
           >
-            <FontAwesomeIcon icon={faXmark} />
+            <X />
           </button>
         </div>
 
-        <form
-          className="users-modal-form"
-          onSubmit={handleSubmit}
-        >
+        <form className="users-modal-form" onSubmit={handleSubmit}>
           <label>
             <span>Name</span>
 
@@ -167,9 +152,7 @@ function UserModal({
               <input
                 type="password"
                 value={password}
-                onChange={(event) =>
-                  setPassword(event.target.value)
-                }
+                onChange={(event) => setPassword(event.target.value)}
                 minLength={6}
                 disabled={loading}
                 required
@@ -196,19 +179,13 @@ function UserModal({
 
                 <div>
                   <span>Created</span>
-                  <strong>
-                    {formatDate(user?.createdAt)}
-                  </strong>
+                  <strong>{formatDate(user?.createdAt)}</strong>
                 </div>
               </div>
             </>
           )}
 
-          {error && (
-            <p className="users-modal-error">
-              {error}
-            </p>
-          )}
+          {error && <p className="users-modal-error">{error}</p>}
 
           <div className="users-modal-footer">
             <div className="users-modal-footer-right">
@@ -239,17 +216,10 @@ function UserModal({
 }
 
 export default function Users() {
-  const {
-    users,
-    loadingUsersData,
-    usersDataError,
-    actionLoading,
-  } = useUsersState();
+  const { users, loadingUsersData, usersDataError, actionLoading } =
+    useUsersState();
 
-  const {
-    getAllUsersData,
-    addUserData,
-  } = useUsersDispatch();
+  const { getAllUsersData, addUserData } = useUsersDispatch();
 
   const [modal, setModal] = useState(null);
   const [actionError, setActionError] = useState("");
@@ -266,10 +236,7 @@ export default function Users() {
 
       role: String(user.role || "user").toUpperCase(),
 
-      roleClass:
-        String(user.role).toLowerCase() === "admin"
-          ? "admin"
-          : "user",
+      roleClass: String(user.role).toLowerCase() === "admin" ? "admin" : "user",
 
       status: "ACTIVE",
 
@@ -284,13 +251,11 @@ export default function Users() {
   }, [users]);
 
   const activePatrons = users.filter(
-    (user) =>
-      String(user.role).toLowerCase() === "user",
+    (user) => String(user.role).toLowerCase() === "user",
   ).length;
 
   const registeredStaff = users.filter(
-    (user) =>
-      String(user.role).toLowerCase() === "admin",
+    (user) => String(user.role).toLowerCase() === "admin",
   ).length;
 
   const openAddModal = () => {
@@ -361,7 +326,7 @@ export default function Users() {
           label="Active Patrons"
           value={activePatrons.toLocaleString()}
           change="Live"
-          icon={faUsers}
+          icon={<UsersRound />}
           iconClass="orange"
         />
 
@@ -369,7 +334,7 @@ export default function Users() {
           label="Registered Staff"
           value={registeredStaff.toLocaleString()}
           change="Live"
-          icon={faUserCheck}
+          icon={<UserCheck />}
           iconClass="gold"
         />
 
@@ -377,30 +342,27 @@ export default function Users() {
           label="Gross Booking Value"
           value="—"
           change="Orders"
-          icon={faCircleDollarToSlot}
+          icon={<PiggyBank />}
           iconClass="green"
         />
       </section>
 
       {loadingUsersData && (
-        <div className="users-loading">
-          Loading users...
-        </div>
+        <div className="users-loading">Loading users...</div>
       )}
 
       {usersDataError?.isError && (
-        <div className="users-error">
-          {usersDataError.message}
-        </div>
+        <div className="users-error">{usersDataError.message}</div>
       )}
 
       {!loadingUsersData && !usersDataError?.isError && (
-        <UsersTable
-          users={formattedUsers}
-          onAdd={openAddModal}
-          onView={openViewModal}
-          onEdit={openEditModal}
-        />
+        // <UsersTable
+        //   users={formattedUsers}
+        //   onAdd={openAddModal}
+        //   onView={openViewModal}
+        //   onEdit={openEditModal}
+        // />
+        <UsersTableSkeleton />
       )}
 
       <section className="users-bottom-grid">
@@ -419,21 +381,19 @@ export default function Users() {
 
       <section className="users-info-strip">
         <div className="users-info-icon">
-          <FontAwesomeIcon icon={faArrowTrendUp} />
+          <TrendingUp />
         </div>
 
         <div>
           <strong>User management overview</strong>
 
           <p>
-            Monitor account activity, permissions and
-            registration trends from one central dashboard.
+            Monitor account activity, permissions and registration trends from
+            one central dashboard.
           </p>
         </div>
 
-        <button type="button">
-          View activity
-        </button>
+        <button type="button">View activity</button>
       </section>
 
       {modal && (
