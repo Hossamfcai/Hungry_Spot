@@ -1,7 +1,7 @@
 import { Routes, Route, Navigate, Router } from "react-router-dom";
 import LandingPage from "../Pages/Landing/LandingPage";
 import DashboardLayout from "../Components/Layout/DashboardLayout";
-import Statistics from "../Pages/Dashboard/Statistics";
+import Analytics from "../Pages/Dashboard/Analytics";
 import Menu from "../Pages/Dashboard/Menu";
 import Orders from "../Pages/Dashboard/Orders";
 import Users from "../Pages/Dashboard/Users";
@@ -31,8 +31,8 @@ export default function AppRouter() {
       {/*only admin has access to this route */}
       <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
         <Route path="/Dashboard" element={<DashboardLayout />}>
-          <Route index element={<Navigate to="Statistics" replace />} />
-          <Route path="Statistics" element={<Statistics />} />
+          <Route index element={<Navigate to="Analytics" replace />} />
+          <Route path="Analytics" element={<Analytics />} />
           <Route path="Menu" element={<Menu />} />
           <Route path="Orders" element={<Orders />} />
           <Route path="Users" element={<Users />} />

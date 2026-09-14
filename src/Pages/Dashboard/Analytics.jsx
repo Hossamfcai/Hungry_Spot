@@ -1,26 +1,44 @@
-import React from "react";
 import {
-  BarChart3,
   CalendarDays,
   ClipboardList,
   Clock3,
   Download,
-  Filter,
   Package,
   Star,
   TrendingUp,
   Users,
   UtensilsCrossed,
 } from "lucide-react";
-
-import AnalyticsStatCard from "../../components/ui/AnalyticsStatCard";
-import RevenueChart from "../../components/ui/RevenueChart";
-import TopActiveCourses from "../../components/ui/TopActiveCourses";
-import AnalyticsSummaryCard from "../../components/ui/AnalyticsSummaryCard";
+import {
+  useMenuState,
+  useOrdersState,
+  useUsersState,
+} from "../../Contexts/AppContext";
+import AnalyticsStatCard from "../../Components/ui/AnalyticsStatCard";
+import RevenueChart from "../../Components/ui/RevenueChart";
+import TopActiveCourses from "../../Components/ui/TopActiveCourses";
+import AnalyticsSummaryCard from "../../Components/ui/AnalyticsSummaryCard";
 
 import "../../styles/Analytics.css";
 
 const Analytics = () => {
+  const { users } = useUsersState();
+  const { orders } = useOrdersState();
+  const { menu } = useMenuState();
+  console.log(orders);
+  const completedRevenue = orders
+    .filter((order) => order.status === "completed")
+    .reduce((sum, order) => {
+      const orderTotal = order.items.reduce((itemSum, item) => {
+        return itemSum + item.price * item.quantity;
+      }, 0);
+
+      return sum + orderTotal;
+    }, 0);
+
+  const pendingCount = orders.filter(
+    (order) => order.status?.toLowerCase() === "pending",
+  ).length;
   return (
     <main className="analytics-page">
       {/* Breadcrumb */}
@@ -66,11 +84,11 @@ const Analytics = () => {
         </div>
       </section>
 
-      {/* Statistics */}
+      {/* Analytics */}
       <section className="analytics-stats-grid">
         <AnalyticsStatCard
           label="TOTAL USERS"
-          value="1,428"
+          value={users.length}
           subLabel="PATRONS ENROLLED"
           change="+14.2%"
           icon={<Users size={13} />}
@@ -79,7 +97,7 @@ const Analytics = () => {
 
         <AnalyticsStatCard
           label="ACTIVE PRODUCTS"
-          value="38"
+          value={menu.length}
           subLabel="Courses"
           secondaryText="LIVE REPORTING"
           change="96.4%"
@@ -89,7 +107,7 @@ const Analytics = () => {
 
         <AnalyticsStatCard
           label="TOTAL REVENUE"
-          value="$148,650"
+          value={`$${completedRevenue}`}
           subLabel="GROSS DEGUSTATION"
           change="+8.7%"
           icon={<TrendingUp size={13} />}
@@ -98,7 +116,7 @@ const Analytics = () => {
 
         <AnalyticsStatCard
           label="PENDING ORDERS"
-          value="12 Active"
+          value={`${pendingCount} Pending`}
           subLabel="LIVE SALON FLOOR"
           change="4 Kitchen"
           icon={<ClipboardList size={13} />}
@@ -108,7 +126,7 @@ const Analytics = () => {
 
       {/* Main analytics */}
       <section className="analytics-main-grid">
-        <RevenueChart />
+        <RevenueChart orders={orders} />
 
         <TopActiveCourses />
       </section>

@@ -82,7 +82,7 @@ export default function Orders() {
         </div>
       </div>
 
-      {/* Statistics */}
+      {/* Analytics */}
       <div className="mb-10 grid grid-cols-1 gap-3 md:grid-cols-3">
         {/* Total Orders */}
         <div className="flex min-h-[80px] items-center justify-between bg-[#1a1a1d] px-5 py-4">

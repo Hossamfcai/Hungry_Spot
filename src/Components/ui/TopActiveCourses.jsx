@@ -1,5 +1,7 @@
 import React from "react";
 import { SlidersHorizontal } from "lucide-react";
+import { useOrdersState } from "../../Contexts/AppContext";
+import { getTopProductsByRevenue } from "../../utils/topProducts";
 
 const courses = [
   {
@@ -29,13 +31,14 @@ const courses = [
 ];
 
 const TopActiveCourses = () => {
+  const { orders } = useOrdersState();
+  const topThree = getTopProductsByRevenue(orders, 3);
+  console.log(topThree);
   return (
     <article className="top-courses-card">
       <div className="top-courses-header">
         <div>
-          <p className="top-courses-eyebrow">
-            COURSE CONTRIBUTION
-          </p>
+          <p className="top-courses-eyebrow">COURSE CONTRIBUTION</p>
 
           <h2>Top Active Courses</h2>
         </div>
@@ -46,19 +49,15 @@ const TopActiveCourses = () => {
       </div>
 
       <div className="courses-list">
-        {courses.map((course) => (
-          <div className="course-item" key={course.number}>
-            <span className="course-number">
-              {course.number}
-            </span>
+        {topThree.map((item, i) => (
+          <div className="course-item" key={item.id}>
+            <span className="course-number">{i + 1}</span>
 
             <div className="course-info">
               <div className="course-title-row">
-                <strong>{course.name}</strong>
-                <b>{course.price}</b>
+                <strong>{item.name}</strong>
+                <b>${item.totalRevenue}</b>
               </div>
-
-              <p>{course.description}</p>
             </div>
           </div>
         ))}

@@ -74,7 +74,7 @@ export default function SignUp() {
         );
         console.log(response.status);
         if (response.role === "admin") {
-          navigate("/Dashboard/Statistics");
+          navigate("/Dashboard/Analytics");
         } else if (response.role === "user") {
           navigate("/Restaurant");
         }

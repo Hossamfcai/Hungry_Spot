@@ -1,4 +1,3 @@
-import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { LogOut } from "lucide-react";
 import {
@@ -9,29 +8,39 @@ import {
   X,
   WandSparkles,
 } from "lucide-react";
+import {
+  useMenuState,
+  useOrdersState,
+  useUsersState,
+} from "../../Contexts/AppContext";
 
 function Sidebar({ isOpen, onClose }) {
+  const { users } = useUsersState();
+  const { orders } = useOrdersState();
+  const { menu } = useMenuState();
   const navItems = [
     {
       name: "Analytics Dashboard",
-      path: "/Dashboard/Statistics",
+      path: "/Dashboard/Analytics",
       icon: ChartLine,
     },
     {
       name: "Manage Products",
       path: "/Dashboard/Menu",
       icon: Package,
-      badge: "24 Items",
+      badge: `${menu.length} Item`,
     },
     {
       name: "Manage Users",
       path: "/Dashboard/Users",
       icon: Users,
+      badge: `${users.length} User`,
     },
     {
       name: "Manage Orders",
       path: "/Dashboard/Orders",
       icon: SlidersHorizontal,
+      badge: `${orders.length} Orders`,
     },
   ];
 
@@ -62,7 +71,7 @@ function Sidebar({ isOpen, onClose }) {
           </div>
 
           <div>
-            <h2>SALON RESERVE</h2>
+            <h2>Hungry Spot</h2>
             <span>Curated Gastronomy</span>
           </div>
 

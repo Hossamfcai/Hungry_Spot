@@ -1,12 +1,31 @@
 import { Outlet } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Menu } from "lucide-react";
-
+import {
+  useMenuDispatch,
+  useMenuState,
+  useOrdersDispatch,
+  useOrdersState,
+  useUsersDispatch,
+  useUsersState,
+} from "../../Contexts/AppContext.jsx";
 import Sidebar from "../ui/Sidebar.jsx";
 import "../../styles/DashboardLayout.css";
 
 export default function DashboardLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { users } = useUsersState();
+  const { getAllUsersData } = useUsersDispatch();
+  const { orders } = useOrdersState();
+  const { getOrdersData } = useOrdersDispatch();
+  const { getMenuData } = useMenuDispatch();
+  const { menu } = useMenuState();
+
+  useEffect(() => {
+    getAllUsersData();
+    getMenuData();
+    getOrdersData();
+  }, []);
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 1241) {

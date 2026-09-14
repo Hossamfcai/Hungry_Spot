@@ -56,7 +56,7 @@ export default function Login() {
         );
         console.log(response.status);
         if (response.role === "admin") {
-          navigate("/Dashboard/Statistics");
+          navigate("/Dashboard/Analytics");
         } else if (response.role === "user") {
           navigate("/Restaurant");
         }
