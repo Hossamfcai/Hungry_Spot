@@ -40,6 +40,24 @@ export function ordresReducer(ordersState, action) {
         ordersError: { isError: false, message: "" },
       };
 
+    case "ADD_ORDER_SUCCESS": {
+      return {
+        ...ordersState,
+        orders: [...ordersState.orders, action.payload],
+        loadingOrders: false,
+        ordersError: { isError: false, message: "" },
+      };
+    }
+
+    case "GET_USER_ORDER_SUCCESS": {
+      return {
+        ...ordersState,
+        orders: [...action.payload],
+        loadingOrders: false,
+        ordersError: { isError: false, message: "" },
+      };
+    }
+
     default:
       return ordersState;
   }

@@ -2,11 +2,11 @@ import { User, Mail, Lock, Eye, AlertCircle } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import Swal from "sweetalert2";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useAuthDispatch, useAuthState } from "../../Contexts/AppContext";
+import { Notification } from "../../utils/sweetAlertNotification";
 const passwordRegex =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
@@ -57,26 +57,6 @@ export default function SignUp() {
       confirmPassword: "",
     },
   });
-  const showSignupSuccess = () => {
-    Swal.fire({
-      title: "Congratulations for your new account",
-      text: "You have Registered  successfully.",
-      icon: "success",
-      timer: 1000, // Closes after 1 second (1000ms)
-      timerProgressBar: true,
-      showConfirmButton: false, // Hides the OK button
-      background: "var(--color-surface-container)", // #1f1f22
-      color: "var(--color-on-surface)", // #e4e1e6
-      iconColor: "var(--color-primary)", // #ffb77d
-      customClass: {
-        popup: "custom-swal-popup",
-        title: "custom-swal-title",
-        htmlContainer: "custom-swal-text",
-        timerProgressBar: "custom-swal-progress",
-      },
-    });
-  };
-  // Handle form submission
   const onSubmit = (data) => {
     setDisabledButton((prev) => {
       return !prev;
@@ -87,7 +67,11 @@ export default function SignUp() {
     const response = handleSignUp(data);
     response
       .then((response) => {
-        showSignupSuccess();
+        Notification(
+          "Congratulations for your new account",
+          "You have Registered successfully.",
+          "success",
+        );
         console.log(response.status);
         if (response.role === "admin") {
           navigate("/Dashboard/Statistics");

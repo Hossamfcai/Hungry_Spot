@@ -5,6 +5,7 @@ import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import Logo from "./Logo";
 import Button from "./Button";
+import UserDropdown from "./DropDown";
 
 const links = [
   {
@@ -38,53 +39,67 @@ export default function Navbar() {
         {/* DESKTOP NAVIGATION */}
         <nav className="hidden items-center gap-8 md:flex">
           {links.map((link, index) => {
-            return location.pathname === "/Authentication/Login" ||
-              location.pathname === "/Authentication/Sign_Up" ? (
-              <a
-                key={link.label}
-                onClick={(e) => {
-                  e.preventDefault();
-                  navigate(`/landingpage${link.href}`);
-                }}
-                className={`text-xs uppercase tracking-[0.18em] transition-all text-on-surface-variant hover:text-primary cursor-pointer `}
-              >
-                {link.label}
-              </a>
-            ) : (
-              <a
-                key={link.label}
-                href={link.href}
-                className={`text-xs uppercase tracking-[0.18em] transition-all cursor-pointer ${
-                  index === 0
-                    ? "text-primary"
-                    : "text-on-surface-variant hover:text-primary"
-                }`}
-              >
-                {link.label}
-              </a>
-            );
+            if (
+              location.pathname === "/Authentication/Login" ||
+              location.pathname === "/Authentication/Sign_Up"
+            ) {
+              return (
+                <a
+                  key={link.label}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigate(`/landingpage${link.href}`);
+                  }}
+                  className={`text-xs uppercase tracking-[0.18em] transition-all text-on-surface-variant hover:text-primary cursor-pointer `}
+                >
+                  {link.label}
+                </a>
+              );
+            } else if (location.pathname === "/Restaurant") {
+              return "";
+            } else {
+              return (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  className={`text-xs uppercase tracking-[0.18em] transition-all cursor-pointer ${
+                    index === 0
+                      ? "text-primary"
+                      : "text-on-surface-variant hover:text-primary"
+                  }`}
+                >
+                  {link.label}
+                </a>
+              );
+            }
           })}
         </nav>
 
         {/* DESKTOP BUTTON */}
 
-        <div
-          className={`hidden md:block ${location.pathname.includes("/Authentication") ? "invisible" : ""}`}
-        >
-          <Button onClick={() => navigate("/Authentication/Login")}>
-            Order Now
-          </Button>
-        </div>
+        {!location.pathname.includes("/Restaurant") ? (
+          <div
+            className={`hidden md:block ${location.pathname.includes("/Authentication") ? "invisible" : ""}`}
+          >
+            <Button onClick={() => navigate("/Authentication/Login")}>
+              Order Now
+            </Button>
+          </div>
+        ) : (
+          <UserDropdown />
+        )}
 
         {/* MOBILE BUTTON */}
-        <button
-          type="button"
-          className="text-on-surface md:hidden"
-          onClick={() => setOpen((value) => !value)}
-          aria-label="Toggle navigation"
-        >
-          {open ? <X size={24} /> : <Menu size={24} />}
-        </button>
+        {!location.pathname.includes("/Restaurant") && (
+          <button
+            type="button"
+            className="text-on-surface md:hidden"
+            onClick={() => setOpen((value) => !value)}
+            aria-label="Toggle navigation"
+          >
+            {open ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        )}
       </div>
 
       {/* MOBILE NAVIGATION */}
@@ -115,10 +130,13 @@ export default function Navbar() {
               );
             })}
 
-            {!location.pathname.includes("/Authentication") && (
+            {!location.pathname.includes("/Authentication") &&
+            !location.pathname.includes("/Restaurant") ? (
               <Button onClick={() => navigate("/Authentication/Login")}>
                 Order Now
               </Button>
+            ) : (
+              ""
             )}
           </div>
         </nav>

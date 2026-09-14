@@ -3,10 +3,10 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { motion } from "framer-motion";
-import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useAuthDispatch, useAuthState } from "../../Contexts/AppContext";
+import { Notification } from "../../utils/sweetAlertNotification";
 
 const signInSchema = z.object({
   email: z
@@ -38,26 +38,7 @@ export default function Login() {
       password: "",
     },
   });
-  const showLoginSuccess = () => {
-    Swal.fire({
-      title: "Welcome Back!",
-      text: "You have logged in successfully.",
-      icon: "success",
-      timer: 1000, // Closes after 1 second (1000ms)
-      timerProgressBar: true,
-      showConfirmButton: false, // Hides the OK button
-      background: "var(--color-surface-container)", // #1f1f22
-      color: "var(--color-on-surface)", // #e4e1e6
-      iconColor: "var(--color-primary)", // #ffb77d
-      customClass: {
-        popup: "custom-swal-popup",
-        title: "custom-swal-title",
-        htmlContainer: "custom-swal-text",
-        timerProgressBar: "custom-swal-progress",
-      },
-    });
-  };
-  // Handle form submission
+
   const onSubmit = (data) => {
     setDisabledButton((prev) => {
       return !prev;
@@ -68,7 +49,11 @@ export default function Login() {
     const response = handleLogin(data);
     response
       .then((response) => {
-        showLoginSuccess();
+        Notification(
+          "Welcome Back!",
+          "You have logged in successfully.",
+          "success",
+        );
         console.log(response.status);
         if (response.role === "admin") {
           navigate("/Dashboard/Statistics");

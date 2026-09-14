@@ -1,42 +1,12 @@
-import { ArrowUpRight, Minus, Plus } from "lucide-react";
-import { useEffect, useState } from "react";
+import { ArrowUpRight, Plus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import {
-  getLocalStorageItem,
-  removeLocalStorageItem,
-  setLocalStorageItem,
-} from "../../utils/localStorageServices";
+import Button from "./Button";
 export default function FoodCard({ dish, updateOrderList }) {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
-  const [count, setCount] = useState(0);
-  function minusItem() {
-    if (count <= 0) return;
-
-    const newCount = count - 1;
-    setCount(newCount);
-    updateOrderList("minus", dish);
-
-    if (newCount === 0) {
-      removeLocalStorageItem(dish.name);
-    } else {
-      setLocalStorageItem(dish.name, newCount);
-    }
-  }
-
   function plusItem() {
-    const newCount = count + 1;
-    setCount(newCount);
     updateOrderList("plus", dish);
-    setLocalStorageItem(dish.name, newCount);
   }
-
-  useEffect(() => {
-    const countsOfItem = getLocalStorageItem(dish.name);
-    if (countsOfItem !== null) {
-      setCount(countsOfItem);
-    }
-  }, [dish.name]);
   return (
     <article className="group overflow-hidden rounded-md border border-outline-variant/35 bg-surface-container-low transition-all duration-300 hover:-translate-y-1 hover:border-primary/40">
       {/* IMAGE */}
@@ -85,36 +55,14 @@ export default function FoodCard({ dish, updateOrderList }) {
           </button>
         )}
         {token && (
-          <div className="mt-5 flex items-center justify-between border-t border-outline-variant/20 pt-4">
-            <div className="flex items-center gap-1 rounded-sm border border-outline-variant/40 bg-surface-container px-1 py-0.5">
-              <button
-                type="button"
-                disabled={count === 0}
-                onClick={() => {
-                  minusItem();
-                }}
-                aria-label="Decrease quantity"
-                className="flex h-7 w-7 items-center justify-center rounded-xs text-on-surface-variant transition-colors hover:bg-surface-container-high hover:text-primary active:scale-95"
-              >
-                <Minus size={14} />
-              </button>
-
-              <span className="min-w-[2rem] text-center text-xs font-semibold text-on-surface">
-                {count}
-              </span>
-
-              <button
-                type="button"
-                onClick={() => {
-                  plusItem();
-                }}
-                aria-label="Increase quantity"
-                className="flex h-7 w-7 items-center justify-center rounded-xs text-on-surface-variant transition-colors hover:bg-surface-container-high hover:text-primary active:scale-95"
-              >
-                <Plus size={14} />
-              </button>
-            </div>
-          </div>
+          <Button
+            onClick={() => {
+              plusItem();
+            }}
+            className="py-2! mt-5 cursor-pointer"
+          >
+            <Plus /> Add to cart
+          </Button>
         )}
       </div>
     </article>
