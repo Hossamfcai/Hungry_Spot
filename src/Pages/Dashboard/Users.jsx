@@ -339,14 +339,6 @@ export default function Users() {
           icon={<UserCheck />}
           iconClass="gold"
         />
-
-        <UserStatCard
-          label="Gross Booking Value"
-          value="—"
-          change="Orders"
-          icon={<PiggyBank />}
-          iconClass="green"
-        />
       </section>
 
       {loadingUsersData && <UsersTableSkeleton />}
@@ -378,36 +370,6 @@ export default function Users() {
         />
       )}
 
-      <section className="users-bottom-grid">
-        <UserActivityCard
-          title="Orders Placed Per Hour"
-          subtitle="Customer engagement throughout the day"
-          type="activity"
-        />
-
-        <UserActivityCard
-          title="Registration Distribution"
-          subtitle="Current account distribution by type"
-          type="distribution"
-        />
-      </section>
-
-      <section className="users-info-strip">
-        <div className="users-info-icon">
-          <TrendingUp />
-        </div>
-
-        <div>
-          <strong>User management overview</strong>
-
-          <p>
-            Monitor account activity, permissions and registration trends from
-            one central dashboard.
-          </p>
-        </div>
-
-        <button type="button">View activity</button>
-      </section>
 
       {modal && (
         <UserModal

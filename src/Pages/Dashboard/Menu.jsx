@@ -15,10 +15,16 @@ export default function Menu() {
     updatingMenu,
     updatingAvailability,
     addingMenu,
+    deletingMenu,
   } = useMenuState();
 
-  const { getMenuData, addMenuData, updateMenuData, toggleMenuAvailability } =
-    useMenuDispatch();
+  const {
+    getMenuData,
+    addMenuData,
+    updateMenuData,
+    toggleMenuAvailability,
+    deleteMenuData,
+  } = useMenuDispatch();
 
   // =====================================================
   // SEARCH
@@ -465,6 +471,68 @@ export default function Menu() {
         text: response.message || "Failed to update product availability.",
         icon: "error",
         confirmButtonText: "OK",
+        customClass: {
+          popup: "restaurant-swal",
+          title: "restaurant-swal-title",
+          htmlContainer: "restaurant-swal-text",
+          confirmButton: "restaurant-swal-confirm",
+        },
+      });
+    }
+  };
+
+  // =====================================================
+  // DELETE PRODUCT
+  // =====================================================
+
+  const handleDelete = async (product) => {
+    const result = await Swal.fire({
+      title: "Delete Product?",
+      text: `Are you sure you want to delete "${product.name}"?`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, delete it",
+      cancelButtonText: "Cancel",
+      reverseButtons: true,
+
+      customClass: {
+        popup: "restaurant-swal",
+        title: "restaurant-swal-title",
+        htmlContainer: "restaurant-swal-text",
+        confirmButton: "restaurant-swal-confirm",
+        cancelButton: "restaurant-swal-cancel",
+      },
+    });
+
+    if (!result.isConfirmed) {
+      return;
+    }
+
+    const response = await deleteMenuData(product.id);
+
+    if (response.success) {
+      await Swal.fire({
+        title: "Product Deleted!",
+        text: `"${product.name}" has been deleted successfully.`,
+        icon: "success",
+        confirmButtonText: "OK",
+
+        customClass: {
+          popup: "restaurant-swal",
+          title: "restaurant-swal-title",
+          htmlContainer: "restaurant-swal-text",
+          confirmButton: "restaurant-swal-confirm",
+        },
+      });
+    } else {
+      Swal.fire({
+        title: "Delete Failed",
+        text:
+          response.message ||
+          "Something went wrong while deleting the product.",
+        icon: "error",
+        confirmButtonText: "OK",
+
         customClass: {
           popup: "restaurant-swal",
           title: "restaurant-swal-title",
@@ -1066,16 +1134,29 @@ export default function Menu() {
                     </button>
                   </div>
 
-                  {/* EDIT */}
+                  {/* ACTIONS */}
 
-                  <div className="menu-edit">
+                  <div className="flex items-center gap-2">
+                    {/* EDIT */}
                     <button
                       type="button"
                       title="Edit product"
                       onClick={() => handleEdit(product)}
-                      className="flex h-7 w-7 items-center justify-center bg-surface-container-high text-on-surface-variant transition hover:bg-surface-container-highest hover:text-primary"
+                      disabled={deletingMenu}
+                      className="flex h-7 w-7 items-center justify-center bg-surface-container-high text-on-surface-variant transition hover:bg-surface-container-highest hover:text-primary disabled:cursor-not-allowed disabled:opacity-50"
                     >
                       ✎
+                    </button>
+
+                    {/* DELETE */}
+                    <button
+                      type="button"
+                      title="Delete product"
+                      onClick={() => handleDelete(product)}
+                      disabled={deletingMenu}
+                      className="flex h-7 w-7 items-center justify-center bg-surface-container-high text-on-surface-variant transition hover:bg-red-950/40 hover:text-red-400 disabled:cursor-not-allowed disabled:opacity-50"
+                    >
+                      🗑
                     </button>
                   </div>
                 </div>

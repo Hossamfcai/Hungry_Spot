@@ -79,3 +79,19 @@ export async function searchMenuService(search, category) {
 
   return response?.data?.data;
 }
+
+export async function deleteMenuService(id) {
+  const token = localStorage.getItem("token");
+
+  const response = await axios.delete(`${MENU_URL}/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (response.status < 200 || response.status >= 300) {
+    throw new Error(`Failed to delete menu item (${response.status})`);
+  }
+
+  return response?.data?.data;
+}
