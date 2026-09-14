@@ -118,20 +118,37 @@ export default function Orders() {
           </div>
         </div>
 
-        {/* Gross Volume */}
+        {/* Pending Orders */}
         <div className="flex min-h-[80px] items-center justify-between bg-[#1a1a1d] px-5 py-4">
           <div>
             <span className="text-[8px] font-bold tracking-[0.8px] text-[#aaa49a]">
-              GROSS SERVICE VOLUME
+              PENDING ORDERS
             </span>
 
             <h2 className="mt-1 font-serif text-2xl font-normal text-[#eee8df]">
-              ${totalVolume.toFixed(2)}
+              {pendingOrders.length}
             </h2>
           </div>
 
           <div className="flex h-8 w-8 items-center justify-center bg-[#252527] text-lg text-[#e98500]">
-            ▣
+            ◷
+          </div>
+        </div>
+
+        {/* Completed Orders */}
+        <div className="flex min-h-[80px] items-center justify-between bg-[#1a1a1d] px-5 py-4">
+          <div>
+            <span className="text-[8px] font-bold tracking-[0.8px] text-[#aaa49a]">
+              COMPLETED ORDERS
+            </span>
+
+            <h2 className="mt-1 font-serif text-2xl font-normal text-[#eee8df]">
+              {completedOrders.length}
+            </h2>
+          </div>
+
+          <div className="flex h-8 w-8 items-center justify-center bg-[#252527] text-lg text-[#8fbd8f]">
+            ✓
           </div>
         </div>
       </div>
