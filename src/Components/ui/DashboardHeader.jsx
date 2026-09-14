@@ -1,5 +1,3 @@
-import { Bell, ChevronDown, Search } from "lucide-react";
-
 export default function DashboardHeader({
   eyebrow = "Operations Dashboard",
   title,
@@ -19,31 +17,12 @@ export default function DashboardHeader({
         </div>
 
         <div className="users-header-actions">
-          <button
-            type="button"
-            className="users-icon-button"
-            aria-label="Search"
-          >
-            <Search />
-          </button>
+          <span className="users-profile-avatar">AM</span>
 
-          <button
-            type="button"
-            className="users-icon-button"
-            aria-label="Notifications"
-          >
-            <Bell />
-          </button>
-
-          <button type="button" className="users-profile-button">
-            <span className="users-profile-avatar">AM</span>
-
-            <span className="users-profile-info">
-              <strong>Admin Manager</strong>
-              <span>Administrator</span>
-            </span>
-            <ChevronDown className="users-profile-arrow" />
-          </button>
+          <span className="users-profile-info">
+            <strong>Admin Manager</strong>
+            <span>Administrator</span>
+          </span>
         </div>
       </div>
     </header>

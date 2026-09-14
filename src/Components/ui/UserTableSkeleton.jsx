@@ -1,146 +1,93 @@
-import { Paper, Group, Box, Table, Skeleton } from "@mantine/core";
-const ThemeSkeleton = ({ style, ...props }) => (
-  <Skeleton
-    {...props}
-    style={{
-      "--skeleton-bg": "var(--color-surface-container-high)",
-      "--skeleton-color": "var(--color-surface-container-highest)",
-      ...style,
-    }}
-  />
-);
-
 export default function UsersTableSkeleton() {
   return (
-    <Paper
-      radius="lg"
-      p="var(--spacing-space-lg)"
-      style={{
-        backgroundColor: "var(--color-surface-container-lowest)",
-        borderColor: "var(--color-outline-variant)",
-        boxShadow: "var(--shadow-candlelight)",
-        fontFamily: "var(--font-sans)",
-      }}
-      withBorder
-    >
-      {/* 1. Header & Actions Skeleton */}
-      <Group
-        justify="space-between"
-        align="flex-start"
-        mb="var(--spacing-space-lg)"
-      >
-        {/* Title & Description Skeleton */}
-        <Box style={{ flex: 1 }}>
-          <ThemeSkeleton height={24} width={240} mb={8} radius="sm" />
-          <ThemeSkeleton height={14} width={380} radius="sm" />
-        </Box>
+    <div className="users-table-section p-5 animate-pulse bg-surface-container-lowest border border-outline-variant rounded-radius-lg shadow-candlelight">
+      {/* 1. Header & Controls Skeleton */}
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-space-md mb-space-xl">
+        {/* Title & Subtitle Skeletons */}
+        <div className="flex flex-col gap-space-2xs w-full sm:w-auto">
+          <div className="h-6 w-56 bg-surface-container-high rounded-radius-sm" />
+          <div className="h-4 w-80 max-w-full bg-surface-container rounded-radius-sm" />
+        </div>
 
-        {/* Dropdown Filter & Add Button Skeletons */}
-        <Group gap="var(--spacing-space-sm)">
-          <ThemeSkeleton height={36} width={130} radius="md" />
-          <ThemeSkeleton height={36} width={110} radius="md" />
-        </Group>
-      </Group>
+        {/* Action Controls Skeleton (Select Filter + Add Button) */}
+        <div className="flex items-center gap-space-sm w-full sm:w-auto">
+          <div className="h-10 w-32 bg-surface-container-high rounded-radius-DEFAULT border border-outline-variant/50" />
+          <div className="h-10 w-28 bg-surface-container-high rounded-radius-DEFAULT border border-outline-variant/50" />
+        </div>
+      </div>
 
-      {/* 2. Table Skeleton Container */}
-      <Table.ScrollContainer minWidth={700}>
-        <Table
-          verticalSpacing="var(--spacing-space-sm)"
-          style={{
-            borderColor: "var(--color-outline-variant)",
-          }}
-        >
+      {/* 2. Responsive Table Wrapper */}
+      <div className="w-full overflow-x-auto scrollbar-none">
+        <table className="w-full min-w-[700px] border-collapse text-left">
           {/* Table Header Column Skeletons */}
-          <Table.Thead>
-            <Table.Tr
-              style={{
-                borderBottom: "1px solid var(--color-outline-variant)",
-              }}
-            >
-              <Table.Th>
-                <ThemeSkeleton height={14} width={60} radius="sm" />
-              </Table.Th>
-              <Table.Th>
-                <ThemeSkeleton height={14} width={50} radius="sm" />
-              </Table.Th>
-              <Table.Th>
-                <ThemeSkeleton height={14} width={100} radius="sm" />
-              </Table.Th>
-              <Table.Th>
-                <ThemeSkeleton height={14} width={90} radius="sm" />
-              </Table.Th>
-              <Table.Th style={{ textAlign: "right" }}>
-                <Group justify="flex-end">
-                  <ThemeSkeleton height={14} width={60} radius="sm" />
-                </Group>
-              </Table.Th>
-            </Table.Tr>
-          </Table.Thead>
+          <thead>
+            <tr className="border-b border-outline-variant/60 bg-surface-container-low">
+              <th className="pb-space-md px-space-xs">
+                <div className="h-3 w-12 bg-surface-container-highest rounded-radius-sm" />
+              </th>
+              <th className="pb-space-md px-space-xs">
+                <div className="h-3 w-10 bg-surface-container-highest rounded-radius-sm" />
+              </th>
+              <th className="pb-space-md px-space-xs">
+                <div className="h-3 w-24 bg-surface-container-highest rounded-radius-sm" />
+              </th>
+              <th className="pb-space-md px-space-xs">
+                <div className="h-3 w-20 bg-surface-container-highest rounded-radius-sm" />
+              </th>
+              <th className="pb-space-md px-space-xs text-right">
+                <div className="h-3 w-14 bg-surface-container-highest rounded-radius-sm ml-auto" />
+              </th>
+            </tr>
+          </thead>
 
-          {/* Table Rows Skeleton Body */}
-          <Table.Tbody>
+          {/* Table Body Row Skeletons */}
+          <tbody className="divide-y divide-outline-variant/30">
             {Array.from({ length: 5 }).map((_, index) => (
-              <Table.Tr
-                key={`table-skeleton-row-${index}`}
-                style={{
-                  borderBottom: "1px solid rgba(85, 67, 54, 0.4)", // --color-outline-variant with opacity
-                }}
-              >
-                {/* User Column: Avatar + Name + Email */}
-                <Table.Td>
-                  <Group gap="var(--spacing-space-sm)" wrap="nowrap">
-                    <ThemeSkeleton height={40} circle shrink={0} />
-                    <Box style={{ width: "100%" }}>
-                      <ThemeSkeleton
-                        height={14}
-                        width="55%"
-                        mb={6}
-                        radius="xl"
-                      />
-                      <ThemeSkeleton height={12} width="80%" radius="xl" />
-                    </Box>
-                  </Group>
-                </Table.Td>
+              <tr key={`table-skeleton-row-${index}`}>
+                {/* User Column: Avatar + Name & Email */}
+                <td className="py-space-md px-space-xs">
+                  <div className="flex items-center gap-space-sm">
+                    <div className="w-10 h-10 rounded-radius-full bg-surface-container-high shrink-0" />
+                    <div className="flex flex-col gap-space-2xs w-full">
+                      <div className="h-3.5 w-36 bg-surface-container-high rounded-radius-sm" />
+                      <div className="h-3 w-48 bg-surface-container rounded-radius-sm" />
+                    </div>
+                  </div>
+                </td>
 
-                {/* Role Column */}
-                <Table.Td>
-                  <ThemeSkeleton height={22} width={65} radius="full" />
-                </Table.Td>
+                {/* Role Column (Badge shape) */}
+                <td className="py-space-md px-space-xs">
+                  <div className="h-6 w-16 bg-surface-container-high rounded-radius-full" />
+                </td>
 
-                {/* Account Status Column */}
-                <Table.Td>
-                  <ThemeSkeleton height={22} width={85} radius="full" />
-                </Table.Td>
+                {/* Status Column (Dot Badge shape) */}
+                <td className="py-space-md px-space-xs">
+                  <div className="h-6 w-20 bg-surface-container-high rounded-radius-full" />
+                </td>
 
                 {/* Last Activity Column */}
-                <Table.Td>
-                  <ThemeSkeleton height={14} width={110} radius="xl" />
-                </Table.Td>
+                <td className="py-space-md px-space-xs">
+                  <div className="h-3.5 w-28 bg-surface-container-low rounded-radius-sm" />
+                </td>
 
-                {/* Row Action Buttons Column */}
-                <Table.Td>
-                  <Group gap={6} justify="flex-end" wrap="nowrap">
-                    <ThemeSkeleton height={28} width={28} radius="md" />
-                    <ThemeSkeleton height={28} width={28} radius="md" />
-                    <ThemeSkeleton height={28} width={28} radius="md" />
-                  </Group>
-                </Table.Td>
-              </Table.Tr>
+                {/* Actions Column (3 Action Buttons) */}
+                <td className="py-space-md px-space-xs">
+                  <div className="flex items-center justify-end gap-space-xs">
+                    <div className="w-7 h-7 bg-surface-container-high rounded-radius-md" />
+                    <div className="w-7 h-7 bg-surface-container-high rounded-radius-md" />
+                    <div className="w-7 h-7 bg-surface-container-high rounded-radius-md" />
+                  </div>
+                </td>
+              </tr>
             ))}
-          </Table.Tbody>
-        </Table>
-      </Table.ScrollContainer>
+          </tbody>
+        </table>
+      </div>
 
       {/* 3. Footer Counter Skeleton */}
-      <Box
-        pt="var(--spacing-space-md)"
-        mt="var(--spacing-space-xs)"
-        style={{
-          borderTop: "1px solid var(--color-outline-variant)",
-        }}
-      >
-        <ThemeSkeleton height={16} width={190} radius="sm" />
-      </Box>
-    </Paper>
+      <div className="pt-space-md mt-space-xs border-t border-outline-variant/40 flex items-center">
+        <div className="h-3.5 w-44 bg-surface-container rounded-radius-sm" />
+      </div>
+    </div>
   );
 }

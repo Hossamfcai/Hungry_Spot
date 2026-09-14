@@ -5,6 +5,7 @@ import {
   addMenuService,
   updateMenuService,
   updateMenuAvailabilityService,
+  searchMenuService,
 } from "../Services/menuServices";
 
 export function useMenuActions(dispatch) {
@@ -13,15 +14,12 @@ export function useMenuActions(dispatch) {
   // =========================
   const getMenuData = useCallback(async () => {
     dispatch({ type: "SET_LOADING" });
-
     try {
       const response = await getMenuService();
-
       dispatch({
         type: "GET_MENU_SUCCESS",
         payload: response,
       });
-
       return {
         success: true,
         data: response,
@@ -164,6 +162,27 @@ export function useMenuActions(dispatch) {
     [dispatch],
   );
 
+  const getSearchMenuData = useCallback(
+    async (search, category) => {
+      dispatch({ type: "SET_LOADING" });
+      try {
+        const response = await searchMenuService(search, category);
+        dispatch({
+          type: "GET_SEARCH_MENU_SUCCESS",
+          payload: response,
+        });
+      } catch (err) {
+        const message =
+          err.response?.data?.message || err.message || "Failed to filter";
+        dispatch({
+          type: "SET_ERROR",
+          payload: message,
+        });
+      }
+    },
+    [dispatch],
+  );
+
   // =========================
   // Return Actions
   // =========================
@@ -172,5 +191,6 @@ export function useMenuActions(dispatch) {
     addMenuData,
     updateMenuData,
     toggleMenuAvailability,
+    getSearchMenuData,
   };
 }

@@ -1,5 +1,7 @@
 export const initialMenu = {
   menu: [],
+  searchInMenu: [],
+  categories: [],
   loadingMenu: false,
 
   menuError: {
@@ -70,14 +72,23 @@ export function menuReducer(menuState, action) {
     // GET SUCCESS
     // =====================================================
 
-    case "GET_MENU_SUCCESS":
+    case "GET_MENU_SUCCESS": {
       return {
         ...menuState,
-
         menu: [...action.payload],
-
         loadingMenu: false,
+        menuError: {
+          isError: false,
+          message: "",
+        },
+      };
+    }
 
+    case "GET_SEARCH_MENU_SUCCESS":
+      return {
+        ...menuState,
+        searchInMenu: [...action.payload],
+        loadingMenu: false,
         menuError: {
           isError: false,
           message: "",

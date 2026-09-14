@@ -30,8 +30,6 @@ export default function Navbar() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  console.log(location.pathname.includes("/Authentication"));
-  console.log(location.pathname);
   return (
     <header className="sticky top-0 z-50 border-b border-outline-variant/30 bg-surface/90 backdrop-blur-xl">
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between  px-5 lg:px-10">

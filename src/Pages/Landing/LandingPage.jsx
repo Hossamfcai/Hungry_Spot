@@ -12,67 +12,14 @@ import HeroPhoto from "../../assets/images/HeroPhoto.png";
 import "./LandingPage.css";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-
-const dishes = [
-  {
-    category: "Signature",
-    title: "Crisp Garden Tart",
-    description:
-      "Seasonal vegetables, whipped chèvre, herbs and a delicate citrus glaze.",
-    price: "$18",
-    image:
-      "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=1000&q=80",
-  },
-  {
-    category: "Chef's Pick",
-    title: "Truffle Gnocchi",
-    description:
-      "Hand-rolled potato gnocchi with wild mushroom, parmesan and black truffle.",
-    price: "$28",
-    image:
-      "https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=1000&q=80",
-  },
-  {
-    category: "Main",
-    title: "Herb-Roasted Tenderloin",
-    description:
-      "Prime beef, roasted roots, charred shallot and our house jus.",
-    price: "$42",
-    image:
-      "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1000&q=80",
-  },
-  {
-    category: "Sea",
-    title: "Citrus Seared Scallops",
-    description:
-      "Day-boat scallops, cauliflower silk, fennel and preserved lemon.",
-    price: "$34",
-    image:
-      "https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=1000&q=80",
-  },
-  {
-    category: "Dessert",
-    title: "Golden Pear Pavlova",
-    description:
-      "Crisp meringue, vanilla cream, poached pear and toasted hazelnut.",
-    price: "$15",
-    image:
-      "https://images.unsplash.com/photo-1565958011703-44f9829ba187?auto=format&fit=crop&w=1000&q=80",
-  },
-  {
-    category: "Sweet",
-    title: "Chocolate & Salt",
-    description:
-      "Dark chocolate crémeux, cacao nib, sea salt caramel and malt crumble.",
-    price: "$16",
-    image:
-      "https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=1000&q=80",
-  },
-];
+import { useMenuDispatch, useMenuState } from "../../Contexts/AppContext";
+import { DishCardSkeleton } from "../../Components/ui/DishSkeleton";
 
 export default function LandingPage() {
   const { hash } = useLocation();
   const navigate = useNavigate();
+  const { menu, loadingMenu } = useMenuState();
+  const { getMenuData } = useMenuDispatch();
   useEffect(() => {
     if (hash) {
       // Remove the '#' to get the target ID
@@ -82,6 +29,10 @@ export default function LandingPage() {
       }
     }
   }, [hash]);
+  useEffect(() => {
+    getMenuData();
+  }, []);
+
   return (
     <div className="landing-page min-h-screen overflow-x-hidden bg-background text-on-background">
       <Navbar />
@@ -254,9 +205,13 @@ export default function LandingPage() {
           </div>
 
           <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {dishes.map((dish) => (
-              <FoodCard key={dish.title} {...dish} />
-            ))}
+            {loadingMenu
+              ? Array.from({ length: 6 }).map(() => {
+                  return <DishCardSkeleton />;
+                })
+              : menu.map((dish, i) => {
+                  return i <= 5 ? <FoodCard key={dish.id} dish={dish} /> : "";
+                })}
           </div>
         </section>
 

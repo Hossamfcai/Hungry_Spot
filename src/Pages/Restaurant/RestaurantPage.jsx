@@ -1,71 +1,77 @@
-import { Star, Search, X, UtensilsCrossed, ChefHat } from "lucide-react";
+import { Star, Search, UtensilsCrossed, ChefHat } from "lucide-react";
 import Navbar from "../../Components/ui/Navbar";
 import Footer from "../../Components/ui/Footer";
 import FoodCard from "../../Components/ui/FoodCard";
+import { useMenuDispatch, useMenuState } from "../../Contexts/AppContext";
+import { useEffect, useState } from "react";
+import heroPhoto from "../../assets/images/resturantHero.jpeg";
+import {
+  getLocalStorageItem,
+  setLocalStorageItem,
+} from "../../utils/localStorageServices";
+import Drawer from "../../Components/ui/Drawer";
+
 export default function ResturantPage() {
-  const dishes = [
-    {
-      category: "Signature",
-      title: "Crisp Garden Tart",
-      description:
-        "Seasonal vegetables, whipped chèvre, herbs and a delicate citrus glaze.",
-      price: "$18",
-      image:
-        "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=1000&q=80",
-    },
-    {
-      category: "Chef's Pick",
-      title: "Truffle Gnocchi",
-      description:
-        "Hand-rolled potato gnocchi with wild mushroom, parmesan and black truffle.",
-      price: "$28",
-      image:
-        "https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=1000&q=80",
-    },
-    {
-      category: "Main",
-      title: "Herb-Roasted Tenderloin",
-      description:
-        "Prime beef, roasted roots, charred shallot and our house jus.",
-      price: "$42",
-      image:
-        "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1000&q=80",
-    },
-    {
-      category: "Sea",
-      title: "Citrus Seared Scallops",
-      description:
-        "Day-boat scallops, cauliflower silk, fennel and preserved lemon.",
-      price: "$34",
-      image:
-        "https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=1000&q=80",
-    },
-    {
-      category: "Dessert",
-      title: "Golden Pear Pavlova",
-      description:
-        "Crisp meringue, vanilla cream, poached pear and toasted hazelnut.",
-      price: "$15",
-      image:
-        "https://images.unsplash.com/photo-1565958011703-44f9829ba187?auto=format&fit=crop&w=1000&q=80",
-    },
-    {
-      category: "Sweet",
-      title: "Chocolate & Salt",
-      description:
-        "Dark chocolate crémeux, cacao nib, sea salt caramel and malt crumble.",
-      price: "$16",
-      image:
-        "https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=1000&q=80",
-    },
-  ];
+  const { menu, loadingMenu, menuError, searchInMenu } = useMenuState();
+  const { getMenuData, getSearchMenuData } = useMenuDispatch();
+  const [orderList, setOrderList] = useState([]);
+  const [categoryState, setCategoryState] = useState("all");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  const categories = ["All", ...new Set(menu.map((item) => item.category))];
+
+  function updateOrder(calc, dish) {
+    if (calc === "plus") {
+      const updatedList = [...orderList, dish];
+      setOrderList(updatedList);
+      setLocalStorageItem("orders", updatedList);
+    }
+
+    if (calc === "minus") {
+      const index = orderList.findIndex((item) => item.id === dish.id);
+      if (index !== -1) {
+        const updatedList = [...orderList];
+        updatedList.splice(index, 1);
+        setOrderList(updatedList);
+        setLocalStorageItem("orders", updatedList);
+      }
+    }
+  }
+  function closeDrawer() {
+    setIsDrawerOpen(false);
+  }
+
+  // Aggregate duplicate items for display in the drawer
+
+  useEffect(() => {
+    getMenuData();
+  }, []);
+
+  useEffect(() => {
+    const orders = getLocalStorageItem("orders");
+    if (orders !== null) {
+      setOrderList([...orders]);
+    }
+  }, []);
+
+  useEffect(() => {
+    getSearchMenuData(
+      searchQuery,
+      categoryState === "all" ? "" : categoryState,
+    );
+  }, [searchQuery, categoryState]);
+
   return (
     <div>
       <Navbar />
       <main className="w-full bg-background min-h-screen">
         <div className="flex flex-col w-full">
           {/* Hero Section */}
-          <section className="relative w-full -mt-16 md:-mt-20 overflow-hidden bg-surface-container-lowest">
+          <section
+            className="relative w-full -mt-16 md:-mt-20 overflow-hidden bg-surface-container-lowest  bg-cover bg-right bg-no-repeat "
+            style={{ backgroundImage: `url(${heroPhoto})` }}
+          >
             <div className="absolute left-1/2 top-0 h-125 w-125 -translate-x-1/2 rounded-full bg-primary/8 blur-[120px]" />
 
             <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-8 pt-24 pb-12 sm:pt-32 sm:pb-16 md:pt-44 md:pb-24 flex flex-col gap-4 sm:gap-6 md:gap-space-lg">
@@ -107,34 +113,42 @@ export default function ResturantPage() {
                   <input
                     className="w-full bg-surface-container-lowest pl-9 sm:pl-11 pr-10 sm:pr-12 py-2.5 sm:py-3 text-on-surface placeholder:text-on-surface-variant/60 text-xs sm:text-sm md:text-body-md rounded transition-all outline-none focus:bg-surface-container-low focus:shadow-[0_0_24px_-4px_rgba(255,183,125,0.25)]"
                     id="dish-search-input"
-                    placeholder="Search dishes, ingredients (e.g., Truffle, Wagyu, Caviar)..."
+                    value={searchQuery}
+                    placeholder="Search dishes..."
                     type="text"
+                    onChange={(e) => {
+                      setSearchQuery(() => {
+                        return e.target.value;
+                      });
+                    }}
                   />
-                  <button
-                    className="hidden absolute inset-y-0 right-0 pr-3 sm:pr-space-md flex items-center text-on-surface-variant hover:text-primary transition-colors"
-                    id="clear-search-btn"
-                    title="Clear search"
-                    type="button"
-                  >
-                    <X className="w-4 h-4" />
-                  </button>
                 </div>
 
                 <div className="flex items-center gap-2 sm:gap-space-sm self-end sm:self-auto w-full sm:w-auto">
                   <button
-                    className="flex items-center justify-center sm:justify-start w-full sm:w-auto gap-2 px-4 py-2.5 sm:py-3 rounded bg-surface-container hover:bg-surface-container-high transition-colors text-on-surface"
+                    disabled={orderList.length === 0}
+                    onClick={() => setIsDrawerOpen(true)}
+                    className={
+                      orderList.length === 0
+                        ? "flex items-center justify-center sm:justify-start w-full sm:w-auto gap-2 px-4 py-2.5 sm:py-3 rounded bg-surface-containe transition-colors text-on-surface"
+                        : "flex items-center justify-center sm:justify-start w-full sm:w-auto gap-2 px-4 py-2.5 sm:py-3 rounded transition-all text-on-surface bg-primary-container hover:bg-secondary-container"
+                    }
                     id="order-drawer-toggle"
                     type="button"
                   >
-                    <ChefHat className="w-4 h-4 sm:w-5 sm:h-5 text-secondary shrink-0" />
-                    <span className="font-label-caps text-xs sm:text-label-caps uppercase text-on-surface whitespace-nowrap">
-                      Curated Tray
+                    <ChefHat
+                      className={`w-4 h-4 sm:w-5 sm:h-5 ${orderList.length == 0 ? "text-secondary" : "text-on-surface"} shrink-0`}
+                    />
+                    <span
+                      className={`font-label-caps  sm:text-label-caps uppercase ${orderList.length == 0 ? "text-on-surface text-xs" : "text-sm font-semibold"} whitespace-nowrap`}
+                    >
+                      Confirm
                     </span>
                     <span
-                      className="px-2 py-0.5 rounded-full bg-primary text-on-primary font-label-caps text-[10px] font-bold"
+                      className={`px-2 py-0.5 rounded-full ${orderList.length === 0 ? "bg-primary text-on-primary font-bold" : "bg-surface text-on-surface font-extrabold"} font-label-caps text-[10px] `}
                       id="tray-count-badge"
                     >
-                      0
+                      {orderList.length}
                     </span>
                   </button>
                 </div>
@@ -145,55 +159,27 @@ export default function ResturantPage() {
                 className="w-full overflow-x-auto pb-2 -mb-2 flex items-center gap-2 sm:gap-space-xs no-scrollbar touch-pan-x"
                 id="category-pills"
               >
-                <button
-                  className="category-btn active-pill px-3 py-1.5 sm:px-4 sm:py-2 rounded font-label-caps text-[11px] sm:text-label-caps uppercase whitespace-nowrap bg-primary text-on-primary shadow-sm transition-all shrink-0"
-                  data-category="all"
-                  type="button"
-                >
-                  All Courses (10)
-                </button>
-                <button
-                  className="category-btn px-3 py-1.5 sm:px-4 sm:py-2 rounded font-label-caps text-[11px] sm:text-label-caps uppercase whitespace-nowrap bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all shrink-0"
-                  data-category="tasting"
-                  type="button"
-                >
-                  Chef's Tasting Specials (2)
-                </button>
-                <button
-                  className="category-btn px-3 py-1.5 sm:px-4 sm:py-2 rounded font-label-caps text-[11px] sm:text-label-caps uppercase whitespace-nowrap bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all shrink-0"
-                  data-category="starters"
-                  type="button"
-                >
-                  Starters &amp; Crudo (2)
-                </button>
-                <button
-                  className="category-btn px-3 py-1.5 sm:px-4 sm:py-2 rounded font-label-caps text-[11px] sm:text-label-caps uppercase whitespace-nowrap bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all shrink-0"
-                  data-category="fish"
-                  type="button"
-                >
-                  Fish &amp; Seafood (2)
-                </button>
-                <button
-                  className="category-btn px-3 py-1.5 sm:px-4 sm:py-2 rounded font-label-caps text-[11px] sm:text-label-caps uppercase whitespace-nowrap bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all shrink-0"
-                  data-category="meats"
-                  type="button"
-                >
-                  Prime Meats &amp; Game (2)
-                </button>
-                <button
-                  className="category-btn px-3 py-1.5 sm:px-4 sm:py-2 rounded font-label-caps text-[11px] sm:text-label-caps uppercase whitespace-nowrap bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all shrink-0"
-                  data-category="pastas"
-                  type="button"
-                >
-                  Artisan Pastas (1)
-                </button>
-                <button
-                  className="category-btn px-3 py-1.5 sm:px-4 sm:py-2 rounded font-label-caps text-[11px] sm:text-label-caps uppercase whitespace-nowrap bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all shrink-0"
-                  data-category="desserts"
-                  type="button"
-                >
-                  Decadent Desserts (1)
-                </button>
+                {categories.map((category, i) => {
+                  return (
+                    <button
+                      key={i}
+                      className={
+                        category.toLowerCase() == categoryState
+                          ? "category-btn active-pill px-3 py-1.5 sm:px-4 sm:py-2 rounded font-label-caps text-[11px] sm:text-label-caps uppercase whitespace-nowrap bg-primary-container text-on-primary shadow-sm transition-all shrink-0"
+                          : "category-btn px-3 py-1.5 sm:px-4 sm:py-2 rounded font-label-caps text-[11px] sm:text-label-caps uppercase whitespace-nowrap bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all shrink-0"
+                      }
+                      onClick={() => {
+                        setCategoryState(() => {
+                          return category.toLowerCase();
+                        });
+                      }}
+                      data-category="all"
+                      type="button"
+                    >
+                      {category}
+                    </button>
+                  );
+                })}
               </div>
             </div>
           </section>
@@ -206,7 +192,7 @@ export default function ResturantPage() {
                 className="font-label-caps text-[11px] sm:text-xs md:text-label-caps text-on-surface-variant uppercase tracking-widest"
                 id="items-count-label"
               >
-                Showing 10 of 10 Masterpieces
+                Showing {searchInMenu.length} of {menu.length} Masterpieces
               </p>
             </div>
           </div>
@@ -217,8 +203,12 @@ export default function ResturantPage() {
               className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-space-lg"
               id="menu-grid"
             >
-              {dishes.map((dish) => (
-                <FoodCard key={dish.title} {...dish} />
+              {searchInMenu.map((dish) => (
+                <FoodCard
+                  key={dish.id}
+                  dish={dish}
+                  updateOrderList={updateOrder}
+                />
               ))}
             </div>
 
@@ -251,6 +241,21 @@ export default function ResturantPage() {
           </section>
         </div>
       </main>
+      <div
+        className={`fixed inset-0 bg-black/70 backdrop-blur-sm z-50 transition-opacity duration-300 ${
+          isDrawerOpen
+            ? "opacity-100 pointer-events-auto"
+            : "opacity-0 pointer-events-none"
+        }`}
+        onClick={() => setIsDrawerOpen(false)}
+      />
+
+      {/* Slide-over Drawer Panel */}
+      <Drawer
+        isDrawerOpen={isDrawerOpen}
+        updateOrder={updateOrder}
+        closeDrawer={closeDrawer}
+      />
       <Footer />
     </div>
   );

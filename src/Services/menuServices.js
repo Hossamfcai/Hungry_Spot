@@ -2,10 +2,6 @@ import axios from "axios";
 
 const MENU_URL = "http://localhost:5000/api/menu";
 
-// =========================
-// GET MENU
-// =========================
-
 export async function getMenuService() {
   const response = await axios.get(MENU_URL);
 
@@ -15,10 +11,6 @@ export async function getMenuService() {
 
   return response?.data?.data;
 }
-
-// =========================
-// ADD MENU ITEM
-// =========================
 
 export async function addMenuService(productData) {
   const token = localStorage.getItem("token");
@@ -36,10 +28,6 @@ export async function addMenuService(productData) {
   return response?.data?.data;
 }
 
-// =========================
-// UPDATE MENU ITEM
-// =========================
-
 export async function updateMenuService(id, productData) {
   const token = localStorage.getItem("token");
 
@@ -55,10 +43,6 @@ export async function updateMenuService(id, productData) {
 
   return response?.data?.data;
 }
-
-// =========================
-// UPDATE AVAILABILITY
-// =========================
 
 export async function updateMenuAvailabilityService(id, available) {
   const token = localStorage.getItem("token");
@@ -77,6 +61,20 @@ export async function updateMenuAvailabilityService(id, available) {
 
   if (response.status < 200 || response.status >= 300) {
     throw new Error(`Failed to update availability (${response.status})`);
+  }
+
+  return response?.data?.data;
+}
+
+export async function searchMenuService(search, category) {
+  const token = localStorage.getItem("token");
+  if (!token) return;
+  const response = await axios.get(
+    `${MENU_URL}?search=${search}&category=${category}`,
+  );
+
+  if (response.status !== 200) {
+    throw new Error(`Failed to search (${response.status})`);
   }
 
   return response?.data?.data;

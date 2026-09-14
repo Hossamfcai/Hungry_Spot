@@ -6,6 +6,8 @@ import {
   UserCheck,
   UsersRound,
   X,
+  AlertTriangle,
+  RefreshCw,
 } from "lucide-react";
 
 import DashboardHeader from "../../components/ui/DashboardHeader";
@@ -347,22 +349,33 @@ export default function Users() {
         />
       </section>
 
-      {loadingUsersData && (
-        <div className="users-loading">Loading users...</div>
-      )}
+      {loadingUsersData && <UsersTableSkeleton />}
 
       {usersDataError?.isError && (
-        <div className="users-error">{usersDataError.message}</div>
+        <div className="w-full mb-3 bg-surface-container-low border border-outline-variant rounded-radius-lg p-space-xl shadow-candlelight flex flex-col items-center justify-center text-center">
+          {/* Failure Icon Badge */}
+          <div className="w-12 h-12 rounded-radius-full bg-error-container/30 border border-error/20 flex items-center justify-center mb-space-md text-error shadow-spotlight">
+            <AlertTriangle className="w-6 h-6 stroke-[1.75]" />
+          </div>
+
+          {/* Error Message */}
+          <h3 className="font-serif text-lg font-bold text-on-surface mb-space-2xs">
+            Connection Failed
+          </h3>
+          <p className="font-sans text-sm text-on-surface-variant max-w-xs mb-space-lg leading-relaxed">
+            Unable to connect to the server. Please check your network
+            connection and try again.
+          </p>
+        </div>
       )}
 
       {!loadingUsersData && !usersDataError?.isError && (
-        // <UsersTable
-        //   users={formattedUsers}
-        //   onAdd={openAddModal}
-        //   onView={openViewModal}
-        //   onEdit={openEditModal}
-        // />
-        <UsersTableSkeleton />
+        <UsersTable
+          users={formattedUsers}
+          onAdd={openAddModal}
+          onView={openViewModal}
+          onEdit={openEditModal}
+        />
       )}
 
       <section className="users-bottom-grid">
