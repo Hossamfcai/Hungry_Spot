@@ -1,22 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
-
-import {
-  TrendingUp,
-  PiggyBank, // or CircleDollarSign
-  UserCheck,
-  UsersRound,
-  X,
-  AlertTriangle,
-  RefreshCw,
-} from "lucide-react";
-
-import DashboardHeader from "../../components/ui/DashboardHeader";
-import UserActivityCard from "../../components/ui/UserActivityCard";
-import UserStatCard from "../../components/ui/UserStatCard";
-import UsersTable from "../../components/ui/UsersTable";
-
+import { UserCheck, UsersRound, X, AlertTriangle } from "lucide-react";
+import DashboardHeader from "../../Components/ui/DashboardHeader";
+import UserStatCard from "../../Components/ui/UserStatCard";
+import UsersTable from "../../Components/ui/UsersTable";
 import { useUsersDispatch, useUsersState } from "../../Contexts/AppContext";
-
 import "../../styles/Users.css";
 import UsersTableSkeleton from "../../Components/ui/UserTableSkeleton";
 
@@ -369,7 +356,6 @@ export default function Users() {
           onEdit={openEditModal}
         />
       )}
-
 
       {modal && (
         <UserModal
