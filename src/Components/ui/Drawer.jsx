@@ -2,7 +2,7 @@ import { UtensilsCrossed, X } from "lucide-react";
 import OrderedDish from "./OrderedDish";
 import Logo from "./Logo";
 import DrawerFooter from "./DrawerFooter";
-import Receipt from "./receipt";
+import Receipt from "./Receipt";
 import { useOrdersState } from "../../Contexts/AppContext";
 import { useOrderList } from "../../Contexts/ListedOrdersContext";
 
