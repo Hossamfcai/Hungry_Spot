@@ -31,12 +31,12 @@ export async function signUpService(body) {
 
 export async function getUserService() {
   const token = localStorage.getItem("token");
-  if (!token) return;
+  if (!token) return [];
   const response = await axios.get(`${apiUrl}/auth/me`, {
     headers: { Authorization: `Bearer ${token}` },
   });
   if (response.status !== 200)
     throw new Error(`Failed to get users data (${response.status})`);
 
-  return response?.data?.data;
+  return response?.data?.data ?? [];
 }

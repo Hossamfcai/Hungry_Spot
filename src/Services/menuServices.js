@@ -9,7 +9,7 @@ export async function getMenuService() {
     throw new Error(`Failed to fetch menu (${response.status})`);
   }
 
-  return response?.data?.data;
+  return response?.data?.data ?? [];
 }
 
 export async function addMenuService(productData) {
@@ -69,7 +69,7 @@ export async function updateMenuAvailabilityService(id, available) {
 
 export async function searchMenuService(search, category) {
   const token = localStorage.getItem("token");
-  if (!token) return;
+  if (!token) return [];
   const response = await axios.get(
     `${apiUrl}/menu?search=${search}&category=${category}`,
   );
@@ -78,7 +78,7 @@ export async function searchMenuService(search, category) {
     throw new Error(`Failed to search (${response.status})`);
   }
 
-  return response?.data?.data;
+  return response?.data?.data ?? [];
 }
 
 export async function deleteMenuService(id) {
