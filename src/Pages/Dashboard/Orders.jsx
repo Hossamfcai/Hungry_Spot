@@ -291,17 +291,18 @@ export default function Orders() {
                 >
                   {/* Order ID */}
                   <div className="text-[10px] font-bold text-[#e98500]">
-                    #{order.id}
+                    {/* #{order.id.slice(-5)} */}#{order.id}
                   </div>
 
                   {/* User Name */}
                   <div className="flex flex-col gap-1">
                     <strong className="text-[10px] font-semibold text-[#eee9df]">
-                      {order.userId}
+                      {order?.userName}
                     </strong>
 
                     <small className="text-[8px] leading-[1.4] text-[#99938a]">
-                      User Name
+                      {/* {order.userId.slice(-5)} */}
+                      {order.userId}
                     </small>
                   </div>
 

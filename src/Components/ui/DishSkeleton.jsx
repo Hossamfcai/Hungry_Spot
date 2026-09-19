@@ -12,17 +12,7 @@ export function DishCardSkeleton() {
       },
     },
   };
-  const shimmerVariants = {
-    initial: { x: "-100%" },
-    animate: {
-      x: "100%",
-      transition: {
-        repeat: Infinity,
-        duration: 1.5,
-        ease: "linear",
-      },
-    },
-  };
+
   return (
     <motion.article
       variants={skeletonContainerVariants}
@@ -30,12 +20,6 @@ export function DishCardSkeleton() {
       animate="visible"
       className="overflow-hidden rounded-md border border-outline-variant/35 bg-surface-container-low animate-pulse"
     >
-      <motion.div
-        variants={shimmerVariants}
-        initial="initial"
-        animate="animate"
-        className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-r from-transparent via-white/10 to-transparent"
-      />
       {/* IMAGE PLACEHOLDER */}
       <div className="relative aspect-[4/3] w-full bg-surface-container-high">
         {/* Category Badge Placeholder */}

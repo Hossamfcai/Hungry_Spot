@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import Logo from "./Logo";
 import Button from "./Button";
 import UserDropdown from "./DropDown";
+import { useMenuState } from "../../Contexts/AppContext";
 
 const links = [
   {
@@ -27,9 +28,11 @@ const links = [
 ];
 
 export default function Navbar() {
+  const { menu } = useMenuState();
   const [open, setOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+  const categories = [...new Set(menu.map((item) => item.category))];
 
   return (
     <header className="sticky top-0 z-50 border-b border-outline-variant/30 bg-surface/90 backdrop-blur-xl">
@@ -38,41 +41,52 @@ export default function Navbar() {
 
         {/* DESKTOP NAVIGATION */}
         <nav className="hidden items-center gap-8 md:flex">
-          {links.map((link, index) => {
-            if (
-              location.pathname === "/Authentication/Login" ||
-              location.pathname === "/Authentication/Sign_Up"
-            ) {
+          {location.pathname !== "/Restaurant" &&
+            links.map((link, index) => {
+              if (
+                location.pathname === "/Authentication/Login" ||
+                location.pathname === "/Authentication/Sign_Up"
+              ) {
+                return (
+                  <a
+                    key={link.label}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      navigate(`/landingpage${link.href}`);
+                    }}
+                    className={`text-xs uppercase tracking-[0.18em] transition-all text-on-surface-variant hover:text-primary cursor-pointer `}
+                  >
+                    {link.label}
+                  </a>
+                );
+              } else {
+                return (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    className={`text-xs uppercase tracking-[0.18em] transition-all cursor-pointer ${
+                      index === 0
+                        ? "text-primary"
+                        : "text-on-surface-variant hover:text-primary"
+                    }`}
+                  >
+                    {link.label}
+                  </a>
+                );
+              }
+            })}
+          {location.pathname == "/Restaurant" &&
+            categories.map((category, i) => {
               return (
                 <a
-                  key={link.label}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    navigate(`/landingpage${link.href}`);
-                  }}
-                  className={`text-xs uppercase tracking-[0.18em] transition-all text-on-surface-variant hover:text-primary cursor-pointer `}
+                  key={i}
+                  href={`#${category.toLowerCase()}`}
+                  className={`text-xs uppercase tracking-[0.18em] transition-all cursor-pointer focus:text-primary`}
                 >
-                  {link.label}
+                  {category}
                 </a>
               );
-            } else if (location.pathname === "/Restaurant") {
-              return "";
-            } else {
-              return (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  className={`text-xs uppercase tracking-[0.18em] transition-all cursor-pointer ${
-                    index === 0
-                      ? "text-primary"
-                      : "text-on-surface-variant hover:text-primary"
-                  }`}
-                >
-                  {link.label}
-                </a>
-              );
-            }
-          })}
+            })}
         </nav>
 
         {/* DESKTOP BUTTON */}

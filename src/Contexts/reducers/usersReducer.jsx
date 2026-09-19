@@ -43,12 +43,12 @@ export function usersReducer(usersState, action) {
         actionLoading: false,
         usersDataError: {
           isError: true,
-          message:
-            action.payload || "An error occurred in user services.",
+          message: action.payload || "An error occurred in user services.",
         },
       };
 
-    case "GET_ALL_USER_SUCCESS":
+    case "GET_ALL_USER_SUCCESS": {
+      console.log(action.payload);
       return {
         ...usersState,
         users: [...action.payload],
@@ -58,6 +58,7 @@ export function usersReducer(usersState, action) {
           message: "",
         },
       };
+    }
 
     case "ADD_USER_SUCCESS":
       return {
