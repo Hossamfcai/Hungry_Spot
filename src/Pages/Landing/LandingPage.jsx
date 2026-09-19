@@ -1,19 +1,18 @@
 import { CalendarDays, Clock3, MapPin, Quote, ArrowDown } from "lucide-react";
 
-import Button from "../../Components/ui/Button";
-import FoodCard from "../../Components/ui/FoodCard";
-import Footer from "../../Components/ui/Footer";
-import Navbar from "../../Components/ui/Navbar";
-import SectionHeading from "../../Components/ui/SectionHeading";
 import Stat from "../../Components/ui/Stat";
 import { useNavigate } from "react-router-dom";
 import HeroPhoto from "../../assets/images/HeroPhoto.png";
-
+import SectionHeading from "../../Components/ui/SectionHeading";
+import Navbar from "../../Components/ui/Navbar";
+import Footer from "../../Components/ui/Footer";
+import Button from "../../Components/ui/Button";
+import FoodCard from "../../Components/ui/FoodCard";
+import { DishCardSkeleton } from "../../Components/ui/DishSkeleton";
 import "../../styles/LandingPage.css";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useMenuDispatch, useMenuState } from "../../Contexts/AppContext";
-import { DishCardSkeleton } from "../../Components/ui/DishSkeleton";
 
 export default function LandingPage() {
   const { hash } = useLocation();
